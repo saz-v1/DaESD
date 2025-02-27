@@ -18,11 +18,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.http import HttpResponse
+from .views import api_home  # Import the API view
 
 def home(request):
     return HttpResponse("<h1>Welcome to UniHub 🚀</h1>")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", home, name="home"),
+#   path("", home, name="home"),
+    path("api/", api_home, name="api-home"),  # Add the API home route
 ]
