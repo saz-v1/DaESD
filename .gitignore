@@ -1,0 +1,27 @@
+# Virtual Environment
+.env
+venv/
+.vscode/
+__pycache__/
+*.pyc
+*.pyo
+Pipfile
+Pipfile.lock
+
+# Django Database and Static Files
+db.sqlite3
+media/
+staticfiles/
+
+# Environment Variables and Secrets
+.env
+config/settings_local.py
+
+# Docker
+*.log
+*.pid
+docker-compose.override.yml
+
+# JetBrains & VS Code IDEs
+.idea/
+
