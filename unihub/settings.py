@@ -78,12 +78,8 @@ WSGI_APPLICATION = "unihub.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "unihub",
-        "USER": "admin",
-        "PASSWORD": "admin123",
-        "HOST": "db",  # Matches the service name in docker-compose.yml
-        "PORT": "5432",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
