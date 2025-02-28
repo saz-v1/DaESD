@@ -21,7 +21,7 @@ from django.http import HttpResponse
 from .views import api_home  # Import the API view
 
 def home(request):
-    return HttpResponse("<h1>Welcome to UniHub 🚀</h1>")
+    return HttpResponse("<h1>Welcome to UniHub</h1>")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
