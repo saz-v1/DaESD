@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.http import HttpResponse
 from .views import api_home  # Import the API view
+from .views import register  # Import the registration view
 
 def home(request):
     return HttpResponse("<h1>Welcome to UniHub</h1>")
@@ -26,5 +27,7 @@ def home(request):
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", home, name="home"),
-    path("api/", api_home, name="api-home"),  # Add the API home route
+    path("api/", api_home, name="api-home"),  # API home route
+    path("accounts/", include("django.contrib.auth.urls")),  #  Adds login/logout/password reset
+    path("register/", register, name="register"),  #  User Registration
 ]
