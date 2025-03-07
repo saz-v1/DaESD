@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content text-center">
+    <h1>Welcome to UniHub</h1>
+    <p>Connect with university communities, join events, and collaborate with peers.</p>
+    
+    {% if not user.is_authenticated %}
+    <div class="mt-3">
+        <a href="{% url 'login' %}" class="btn">Login</a>
+        <a href="{% url 'register' %}" class="btn">Register</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %} 

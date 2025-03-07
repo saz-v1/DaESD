@@ -17,12 +17,11 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from django.http import HttpResponse
-from .views import api_home  # Import the API view
-from .views import register  # Import the registration view
+from django.shortcuts import render
+from .views import api_home, register
 
 def home(request):
-    return HttpResponse("<h1>Welcome to UniHub</h1>")
+    return render(request, "home.html")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
