@@ -18,7 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import render
-from .views import api_home, register
+from .views import api_home, register, profile_view
 
 def home(request):
     return render(request, "home.html")
@@ -29,4 +29,5 @@ urlpatterns = [
     path("api/", api_home, name="api-home"),  # API home route
     path("accounts/", include("django.contrib.auth.urls")),  #  Adds login/logout/password reset
     path("register/", register, name="register"),  #  User Registration
+    path("profile/", profile_view, name='profile')
 ]

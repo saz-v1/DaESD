@@ -16,3 +16,7 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, "registration/register.html", {"form": form})
+
+def profile_view(request):
+    return render(request, "profile.html")
+

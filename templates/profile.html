@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="profile-container">
+    <!-- Profile Sidebar -->
+    <div class="profile-sidebar">
+        <div class="profile-picture">{{ user.username|slice:":2"|upper }}</div>
+        <div class="text-center">
+            <button class="btn mb-3">Edit Profile</button>
+        </div>
+        
+        <div class="profile-stats">
+            <div class="stat-item">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Communities</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">8</div>
+                <div class="stat-label">Events</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">5</div>
+                <div class="stat-label">Achievements</div>
+            </div>
+        </div>
+        
+        <h3 class="section-title">About Me</h3>
+        <p>{{ profile.about|default:"Computer Science student passionate about AI and web development. Always looking to connect with like-minded peers for study groups and hackathons." }}</p>
+        
+        <h3 class="section-title">Interests</h3>
+        <div>
+            <span class="tag">Programming</span>
+            <span class="tag">AI</span>
+            <span class="tag">Web Development</span>
+            <span class="tag">Photography</span>
+            <span class="tag">Chess</span>
+        </div>
+        
+        <h3 class="section-title">Academic Info</h3>
+        <p><strong>Degree:</strong> {{ profile.degree|default:"BSc Computer Science" }}</p>
+        <p><strong>Year:</strong> {{ profile.year|default:"2nd Year" }}</p>
+        <p><strong>Faculty:</strong> {{ profile.faculty|default:"Science and Engineering" }}</p>
+    </div>
+    
+    <!-- Profile Content -->
+    <div class="profile-content">
+        <div class="profile-header">
+            <div class="profile-info">
+                <h1>{{ user.get_full_name|default:user.username }}</h1>
+                <p>@{{ user.username }} • {{ profile.major|default:"Computer Science" }}</p>
+            </div>
+            <button class="edit-button">Edit Profile</button>
+        </div>
+        
+        <div class="tab-navigation">
+            <button class="tab-button active" data-tab="overview">Overview</button>
+            <button class="tab-button" data-tab="communities">Communities</button>
+            <button class="tab-button" data-tab="events">Events</button>
+            <button class="tab-button" data-tab="achievements">Achievements</button>
+        </div>
+        
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <h2 class="section-title">My Communities</h2>
+            <div class="community-list">
+                <div class="community-item">
+                    <h3>AI Research Group</h3>
+                    <p>Weekly discussions on the latest AI research papers</p>
+                    <div><span class="tag">25 members</span> <span class="tag">Active</span></div>
+                </div>
+                <div class="community-item">
+                    <h3>Web Dev Society</h3>
+                    <p>Learning web development through projects and hackathons</p>
+                    <div><span class="tag">42 members</span> <span class="tag">Active</span></div>
+                </div>
+                <div class="community-item">
+                    <h3>Chess Club</h3>
+                    <p>Weekly chess tournaments and strategy discussions</p>
+                    <div><span class="tag">18 members</span> <span class="tag">Active</span></div>
+                </div>
+            </div>
+            
+            <h2 class="section-title">Upcoming Events</h2>
+            <div class="event-list">
+                <div class="event-item">
+                    <h3>AI Workshop: Neural Networks</h3>
+                    <p>March 18, 2025 • 2:00 PM • Science Building, Room 302</p>
+                    <div><span class="tag">AI Research Group</span> <span class="tag">Workshop</span></div>
+                </div>
+                <div class="event-item">
+                    <h3>Hackathon: Web App Challenge</h3>
+                    <p>March 20-21, 2025 • 9:00 AM • Tech Hub</p>
+                    <div><span class="tag">Web Dev Society</span> <span class="tag">Competition</span></div>
+                </div>
+            </div>
+            
+            <h2 class="section-title">Recent Activity</h2>
+            <div class="activity-feed">
+                <div class="activity-item">
+                    <div class="activity-icon">C</div>
+                    <div>
+                        <p><strong>Joined a new community:</strong> Photography Club</p>
+                        <p class="text-muted">March 10, 2025</p>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">E</div>
+                    <div>
+                        <p><strong>RSVP'd to event:</strong> AI Workshop: Neural Networks</p>
+                        <p class="text-muted">March 8, 2025</p>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">A</div>
+                    <div>
+                        <p><strong>Earned achievement:</strong> Community Builder</p>
+                        <p class="text-muted">March 5, 2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Communities Tab -->
+        <div id="communities" class="tab-content">
+            <h2 class="section-title">My Communities</h2>
+            <div class="community-list">
+                <div class="community-item">
+                    <h3>AI Research Group</h3>
+                    <p>Weekly discussions on the latest AI research papers</p>
+                    <div><span class="tag">25 members</span> <span class="tag">Active</span></div>
+                </div>
+                <div class="community-item">
+                    <h3>Web Dev Society</h3>
+                    <p>Learning web development through projects and hackathons</p>
+                    <div><span class="tag">42 members</span> <span class="tag">Active</span></div>
+                </div>
+                <div class="community-item">
+                    <h3>Chess Club</h3>
+                    <p>Weekly chess tournaments and strategy discussions</p>
+                    <div><span class="tag">18 members</span> <span class="tag">Active</span></div>
+                </div>
+                <div class="community-item">
+                    <h3>Photography Club</h3>
+                    <p>Sharing photography tips and organizing photo walks</p>
+                    <div><span class="tag">34 members</span> <span class="tag">Active</span></div>
+                </div>
+            </div>
+            
+            <h2 class="section-title">Recommended Communities</h2>
+            <div class="community-list">
+                <div class="community-item">
+                    <h3>Data Science Group</h3>
+                    <p>Exploring data science techniques and applications</p>
+                    <div><span class="tag">56 members</span> <span class="tag">Active</span></div>
+                    <button class="btn">Join Community</button>
+                </div>
+                <div class="community-item">
+                    <h3>Game Development</h3>
+                    <p>Creating games using various engines and platforms</p>
+                    <div><span class="tag">29 members</span> <span class="tag">Active</span></div>
+                    <button class="btn">Join Community</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Events Tab -->
+        <div id="events" class="tab-content">
+            <h2 class="section-title">Upcoming Events</h2>
+            <div class="event-list">
+                <div class="event-item">
+                    <h3>AI Workshop: Neural Networks</h3>
+                    <p>March 18, 2025 • 2:00 PM • Science Building, Room 302</p>
+                    <div><span class="tag">AI Research Group</span> <span class="tag">Workshop</span></div>
+                    <button class="btn">Cancel RSVP</button>
+                </div>
+                <div class="event-item">
+                    <h3>Hackathon: Web App Challenge</h3>
+                    <p>March 20-21, 2025 • 9:00 AM • Tech Hub</p>
+                    <div><span class="tag">Web Dev Society</span> <span class="tag">Competition</span></div>
+                    <button class="btn">Cancel RSVP</button>
+                </div>
+            </div>
+            
+            <h2 class="section-title">Past Events</h2>
+            <div class="event-list">
+                <div class="event-item">
+                    <h3>Python Crash Course</h3>
+                    <p>March 1, 2025 • 1:00 PM • Computing Building, Room 105</p>
+                    <div><span class="tag">Web Dev Society</span> <span class="tag">Workshop</span></div>
+                </div>
+                <div class="event-item">
+                    <h3>Chess Tournament</h3>
+                    <p>February 20, 2025 • 5:00 PM • Student Union</p>
+                    <div><span class="tag">Chess Club</span> <span class="tag">Competition</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Achievements Tab -->
+        <div id="achievements" class="tab-content">
+            <h2 class="section-title">My Achievements</h2>
+            <div class="achievement-list">
+                <div class="achievement-item">
+                    <div class="achievement-badge">🏆</div>
+                    <div>
+                        <h3>Community Builder</h3>
+                        <p>Joined 5+ communities</p>
+                    </div>
+                </div>
+                <div class="achievement-item">
+                    <div class="achievement-badge">🎯</div>
+                    <div>
+                        <h3>Event Organizer</h3>
+                        <p>Organized 3+ events</p>
+                    </div>
+                </div>
+                <div class="achievement-item">
+                    <div class="achievement-badge">🌟</div>
+                    <div>
+                        <h3>Rising Star</h3>
+                        <p>Active for 30+ days</p>
+                    </div>
+                </div>
+                <div class="achievement-item">
+                    <div class="achievement-badge">🧠</div>
+                    <div>
+                        <h3>Knowledge Seeker</h3>
+                        <p>Attended 5+ workshops</p>
+                    </div>
+                </div>
+                <div class="achievement-item">
+                    <div class="achievement-badge">🤝</div>
+                    <div>
+                        <h3>Collaborator</h3>
+                        <p>Participated in 3+ team projects</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Tab navigation functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}
