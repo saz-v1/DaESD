@@ -29,4 +29,5 @@ urlpatterns = [
     path("api/", api_home, name="api-home"),  # API home route
     path("accounts/", include("django.contrib.auth.urls")),  #  Adds login/logout/password reset
     path("register/", register, name="register"),  #  User Registration
+    path("", include("events.urls")),  #  Include events app urls
 ]
