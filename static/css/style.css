@@ -94,7 +94,30 @@ h1, h2, h3 {
     margin-bottom: 1rem;
 } 
 
-<<<<<<< HEAD
+/* now that logout is a form and button we need to remove and change its styles to match the nav links */
+.logout-form{
+    all:unset;
+}
+
+.logout-link{
+    background-color: transparent!important;
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    padding: 5px;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+
+.logout-link:hover {
+    background-color: #34495e!important;
+}
+
+.nav-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
 .profile-container {
     display: flex;
     gap: 30px;
@@ -342,28 +365,4 @@ h1, h2, h3 {
     .community-list, .event-list {
         grid-template-columns: 1fr;
     }
-=======
-/* now that logout is a form and button we need to remove and change its styles to match the nav links */
-.logout-form{
-    all:unset;
-}
-
-.logout-link{
-    background-color: transparent!important;
-    color: white;
-    text-decoration: none;
-    margin: 0 10px;
-    padding: 5px;
-    border-radius: 3px;
-    transition: background-color 0.3s;
-}
-
-.logout-link:hover {
-    background-color: #34495e!important;
-}
-
-.nav-logo {
-    font-size: 1.5rem;
-    font-weight: bold;
->>>>>>> 462145fe9a498cbf23f7f03a88bbf7619df93241
 }
