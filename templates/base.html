@@ -10,11 +10,22 @@
 <body>
     <nav>
         <div class="nav-brand">
-            <a href="/">UniHub</a>
+            <!-- nav brand is now used to group the logo and navlinks and navlogo has its own class for styling -->
+            <a class="nav-logo" href="/">UniHub</a>
+            <a href="/">Home</a>
+            <a href="{% url 'events' %}">Events</a>
+            <a href="#">Communities</a>
         </div>
         <div>
             {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}">Logout</a>
+                <a href="#">Profile</a>
+                <!-- form used for post method and csrf token to protect again csrf attacks (fixes error 405) -->
+                <form class="logout-form" method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button class="logout-link" type="submit">
+                        Logout
+                    </button>
+                </form>
             {% else %}
                 <a href="{% url 'login' %}">Login</a>
                 <a href="{% url 'register' %}">Register</a>

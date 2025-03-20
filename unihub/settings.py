@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",  # For API support
+    'events',  # Include events app
 ]
 
 MIDDLEWARE = [
