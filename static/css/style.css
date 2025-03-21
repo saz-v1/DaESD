@@ -805,6 +805,7 @@ h1, h2, h3 {
     color: #27ae60;
 }
 
+/* Button styles for community actions */
 .community-actions {
     display: flex;
     flex-wrap: wrap;
@@ -813,15 +814,48 @@ h1, h2, h3 {
 }
 
 .community-actions .btn,
-.community-actions form,
-.community-actions button {
+.community-actions form button,
+.community-actions a {
+    min-width: 120px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    box-sizing: border-box;
     margin: 0;
-    flex: 0 0 auto;
+    height: 42px; /* Fixed height for all buttons */
 }
 
 .community-actions form {
+    margin: 0;
+    padding: 0;
     display: block;
-    width: auto;
+}
+
+.community-actions button {
+    width: 100%;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* Fix for button variants in all contexts */
+.btn-outline {
+    background-color: transparent;
+    color: #3498db;
+    border: 1px solid #3498db;
+    padding: 9px 15px; /* Adjust for border */
+}
+
+.btn-outline:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: #2980b9;
+    border-color: #2980b9;
+}
+
+/* Ensure all buttons have the same box-sizing */
+.btn, button, a.btn {
+    box-sizing: border-box;
 }
 
 /* Community detail specific actions */
@@ -931,18 +965,6 @@ h1, h2, h3 {
 
 .btn-danger:hover {
     background-color: #c0392b;
-}
-
-.btn-outline {
-    background-color: transparent;
-    color: #3498db;
-    border: 1px solid #3498db;
-}
-
-.btn-outline:hover {
-    background-color: rgba(52, 152, 219, 0.1);
-    color: #2980b9;
-    border-color: #2980b9;
 }
 
 /* Override specific button styles */
@@ -1189,4 +1211,36 @@ h1, h2, h3 {
 
 .community-detail-container .community-header {
     margin-bottom: 30px;
+}
+
+/* Additional specific fixes for community detail buttons */
+.community-detail-container .community-actions .btn,
+.community-detail-container .community-actions form button {
+    width: 150px; /* Equal width for both buttons */
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    box-sizing: border-box;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.community-detail-container .community-actions form {
+    width: 150px;
+}
+
+.community-detail-container .community-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* Special fix for outline buttons to match heights exactly */
+.community-detail-container .community-actions .btn-outline {
+    padding: 0 15px;
+    height: 42px;
+    border-width: 1px;
 }
