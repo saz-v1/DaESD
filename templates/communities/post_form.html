@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="community-form-container">
+    {% if edit_mode %}
+    <h1>Edit Post in {{ community.name }}</h1>
+    {% else %}
+    <h1>Create New Post in {{ community.name }}</h1>
+    {% endif %}
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">Post Title:</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+            <div class="form-error">{{ form.title.errors }}</div>
+            {% endif %}
+            <div class="help-text">Give your post a clear and descriptive title</div>
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.content.id_for_label }}">Content:</label>
+            {{ form.content }}
+            {% if form.content.errors %}
+            <div class="form-error">{{ form.content.errors }}</div>
+            {% endif %}
+            <div class="help-text">Share your thoughts, questions, or ideas with the community</div>
+        </div>
+        
+        <div class="form-actions">
+            <a href="{% url 'community_detail' slug=community.slug %}" class="btn btn-outline">Cancel</a>
+            {% if edit_mode %}
+            <button type="submit" class="btn btn-primary">Update Post</button>
+            {% else %}
+            <button type="submit" class="btn btn-success">Publish Post</button>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %} 

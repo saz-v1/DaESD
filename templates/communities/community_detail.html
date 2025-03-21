@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="community-detail-container">
+    <div class="community-header">
+        {% if community.image %}
+        <div class="community-banner">
+            <img src="{{ community.image.url }}" alt="{{ community.name }}">
+        </div>
+        {% endif %}
+        
+        <div class="community-title">
+            <h1>{{ community.name }}</h1>
+            <div class="community-meta">
+                <span class="tag">{{ community.members.count }} members</span>
+                <span class="tag">Created {{ community.created_at|date:"M d, Y" }}</span>
+                <span class="tag">By {{ community.creator.username }}</span>
+            </div>
+        </div>
+        
+        <!-- Restructured community actions -->
+        {% if user.is_authenticated %}
+            {% if is_member %}
+                <!-- Admin controls in their own section -->
+                {% if user_role == 'admin' or user == community.creator or user.is_staff %}
+                <div class="admin-controls">
+                    <h3>Admin Actions</h3>
+                    <div class="admin-buttons">
+                        <a href="{% url 'edit_community' slug=community.slug %}" class="btn btn-primary">Edit Community</a>
+                        <a href="{% url 'manage_members' slug=community.slug %}" class="btn btn-primary">Manage Members</a>
+                        <a href="{% url 'delete_community' slug=community.slug %}" class="btn btn-danger">Delete Community</a>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Member actions in their own section -->
+                <div class="community-actions">
+                    <a href="{% url 'create_post' community_slug=community.slug %}" class="btn btn-success">Create Post</a>
+                    <form method="post" action="{% url 'leave_community' slug=community.slug %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline">Leave Community</button>
+                    </form>
+                </div>
+            {% else %}
+                <!-- Non-member action -->
+                <div class="community-actions">
+                    <form method="post" action="{% url 'join_community' slug=community.slug %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">Join Community</button>
+                    </form>
+                </div>
+            {% endif %}
+        {% else %}
+            <!-- Logged out action -->
+            <div class="community-actions">
+                <a href="{% url 'login' %}?next={% url 'community_detail' slug=community.slug %}" class="btn btn-primary">Login to Join</a>
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="community-content">
+        <div class="community-description">
+            <h2>About this Community</h2>
+            <p>{{ community.description }}</p>
+        </div>
+        
+        <div class="community-posts">
+            <h2>Posts</h2>
+            
+            {% if not is_member %}
+            <div class="posts-login-message">
+                <p>Join this community to see posts and participate in discussions.</p>
+            </div>
+            {% elif posts %}
+                {% for post in posts %}
+                <div class="post-card">
+                    <div class="post-header">
+                        <h3><a href="{% url 'post_detail' community_slug=community.slug post_id=post.id %}">{{ post.title }}</a></h3>
+                        <div class="post-meta">
+                            <span>By {{ post.author.username }}</span>
+                            <span>{{ post.created_at|date:"M d, Y" }}</span>
+                            <span>{{ post.comments.count }} comments</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>{{ post.content|truncatechars:200 }}</p>
+                    </div>
+                    <div class="post-actions">
+                        <a href="{% url 'post_detail' community_slug=community.slug post_id=post.id %}" class="btn btn-sm btn-primary">Read More</a>
+                        {% if post.author == user or user_role in 'admin,moderator' %}
+                        <a href="{% url 'edit_post' community_slug=community.slug post_id=post.id %}" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="{% url 'delete_post' community_slug=community.slug post_id=post.id %}" class="btn btn-sm btn-danger">Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div class="posts-empty-state">
+                <p>No posts in this community yet.</p>
+                <a href="{% url 'create_post' community_slug=community.slug %}" class="btn btn-success">Create the First Post</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

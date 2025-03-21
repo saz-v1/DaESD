@@ -8,6 +8,11 @@ COPY . /app
 
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Create media directory if it doesn't exist and set permissions
+RUN mkdir -p /app/media/community_images && \
+    chmod -R 777 /app/media
+
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Use entrypoint script to handle startup operations
+ENTRYPOINT ["/app/entrypoint.sh"]

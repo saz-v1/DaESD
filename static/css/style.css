@@ -366,3 +366,827 @@ h1, h2, h3 {
         grid-template-columns: 1fr;
     }
 }
+
+/* Community Form Styling */
+.community-form-container {
+    max-width: 800px;
+    margin: 30px auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 30px;
+}
+
+.community-form-container h1 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.community-form-container .form-group {
+    margin-bottom: 20px;
+}
+
+.community-form-container label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.community-form-container input[type="text"],
+.community-form-container textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.community-form-container input[type="text"]:focus,
+.community-form-container textarea:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.community-form-container textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.community-form-container .image-upload {
+    margin-top: 10px;
+}
+
+.community-form-container .current-image {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.community-form-container .current-image img {
+    max-width: 150px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+}
+
+.community-form-container .form-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.community-form-container .btn {
+    padding: 12px 24px;
+    font-size: 16px;
+}
+
+.community-form-container .btn-primary {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.community-form-container .btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.community-form-container .btn-outline {
+    background-color: transparent;
+    color: #3498db;
+    border: 1px solid #3498db;
+}
+
+.community-form-container .btn-outline:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+.community-form-container .form-error {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.community-form-container .help-text {
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Community image styling */
+.community-banner {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 8px 8px 0 0;
+    background-color: #f5f5f5;
+}
+
+.community-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.community-image {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 8px 8px 0 0;
+    background-color: #f5f5f5;
+}
+
+.community-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.community-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #3498db;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+/* Additional styling for image upload field */
+.image-upload-wrapper {
+    margin-bottom: 10px;
+}
+
+.image-upload-wrapper input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.image-upload-wrapper input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.image-upload-wrapper label {
+    display: inline-flex;
+    align-items: center;
+    font-weight: normal;
+    margin-top: 8px;
+}
+
+/* Fix for form in community form container */
+.community-form-container form {
+    max-width: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Add visual feedback when hovering over file input */
+.community-form-container input[type="file"]:hover {
+    cursor: pointer;
+    background-color: #f8f9fa;
+}
+
+/* Make sure checkbox label appears on the same line as the checkbox */
+.community-form-container input[type="checkbox"] + label {
+    display: inline;
+    margin-left: 8px;
+}
+
+/* Clear image button styling - enhanced UI control that replaces standard checkbox */
+.clear-image-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin-top: 10px;
+    background-color: #f8f9fa;
+    color: #7f8c8d;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease; /* Smooth state transition for better UX */
+}
+
+.clear-image-btn:hover {
+    background-color: #e9ecef;
+    border-color: #ced4da; /* Subtle hover feedback */
+}
+
+.clear-image-btn.selected {
+    background-color: #e74c3c;
+    color: white;
+    border-color: #e74c3c; /* Strong visual cue that option is selected */
+}
+
+/* Hide the actual checkbox - maintains form functionality while improving UI */
+.hidden-checkbox {
+    display: none; /* Visually hidden but still participates in form submission */
+}
+
+/* Image upload area - structured container improves layout organization */
+.image-upload-area {
+    margin: 15px 0;
+}
+
+/* Control grouping for related elements - improves visual hierarchy */
+.image-controls {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    gap: 10px; /* Modern spacing technique using gap instead of margins */
+}
+
+/* Allows file input to fill available space */
+.file-input-wrapper {
+    flex-grow: 1; /* Uses flexbox to ensure proper spacing */
+}
+
+/* Enhanced Communities Page Styling */
+.communities-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.communities-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+.communities-header h1 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 2rem;
+}
+
+.create-community-btn {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.create-community-btn:hover {
+    background-color: #2ecc71;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.create-community-btn:active {
+    transform: translateY(0);
+}
+
+.create-community-btn::before {
+    content: "+";
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.communities-filter {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 15px;
+    padding-left: 40px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-input:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.search-input::placeholder {
+    color: #95a5a6;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #95a5a6;
+    font-size: 18px;
+}
+
+.communities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.community-card {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.community-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.community-image {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    position: relative;
+    background-color: #f5f5f5;
+}
+
+.community-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s;
+}
+
+.community-card:hover .community-image img {
+    transform: scale(1.05);
+}
+
+.community-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #3498db;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.community-info {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.community-info h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #2c3e50;
+    font-size: 1.3rem;
+}
+
+.community-info p {
+    color: #7f8c8d;
+    margin-bottom: 15px;
+    line-height: 1.5;
+    flex-grow: 1;
+}
+
+.community-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.tag {
+    background-color: #f1f1f1;
+    color: #7f8c8d;
+    padding: 4px 10px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    display: inline-block;
+}
+
+.tag.member-count {
+    background-color: #e8f4fd;
+    color: #3498db;
+}
+
+.tag.date {
+    background-color: #f0f9eb;
+    color: #27ae60;
+}
+
+.community-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.community-actions .btn,
+.community-actions form,
+.community-actions button {
+    margin: 0;
+    flex: 0 0 auto;
+}
+
+.community-actions form {
+    display: block;
+    width: auto;
+}
+
+/* Community detail specific actions */
+.community-detail-container .community-actions {
+    padding: 15px 0;
+}
+
+.community-detail-container .admin-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.post-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.manage-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+/* Make community list card actions stack better */
+.community-card .community-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.community-card .manage-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Unified Button System for Communities */
+.btn {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+    line-height: 1.5;
+    background-color: #3498db;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Button sizes */
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 4px;
+}
+
+.btn-lg {
+    padding: 12px 20px;
+    font-size: 16px;
+}
+
+/* Button variants */
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-success {
+    background-color: #27ae60;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #219955;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: #3498db;
+    border: 1px solid #3498db;
+}
+
+.btn-outline:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: #2980b9;
+    border-color: #2980b9;
+}
+
+/* Override specific button styles */
+.create-community-btn {
+    background-color: #27ae60;
+    color: white;
+    padding: 12px 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.create-community-btn:hover {
+    background-color: #219955;
+}
+
+.create-community-btn:active {
+    transform: translateY(0);
+}
+
+.community-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.community-card .community-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.community-actions .btn {
+    min-width: 120px;
+    text-align: center;
+    justify-content: center;
+}
+
+.manage-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.community-card .manage-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-top: 8px;
+}
+
+.admin-controls {
+    background-color: #f8f9fa;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.admin-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Community form buttons */
+.community-form-container .btn {
+    padding: 12px 24px;
+    font-size: 16px;
+}
+
+/* Post buttons */
+.post-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* Empty state buttons */
+.empty-state .btn {
+    padding: 12px 24px;
+    font-weight: bold;
+}
+
+/* Empty state styling */
+.empty-state {
+    grid-column: 1 / -1;
+    background-color: white;
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin: 20px 0;
+}
+
+.empty-state p {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.empty-state-icon {
+    font-size: 3rem;
+    color: #bdc3c7;
+    margin-bottom: 15px;
+}
+
+.empty-state .btn {
+    background-color: #27ae60;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.empty-state .btn:hover {
+    background-color: #2ecc71;
+    transform: translateY(-2px);
+}
+
+/* New community section */
+.new-community-section {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 40px;
+    border: 2px dashed #e0e0e0;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.new-community-section:hover {
+    background-color: #f0f5ff;
+}
+
+.new-community-section h2 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.new-community-section p {
+    color: #7f8c8d;
+    margin-bottom: 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.new-community-section .btn {
+    background-color: #27ae60;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.new-community-section .btn:hover {
+    background-color: #2ecc71;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Community section title */
+.communities-section-title {
+    margin: 40px 0 20px 0;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    position: relative;
+    padding-left: 15px;
+}
+
+.communities-section-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: #3498db;
+    border-radius: 4px;
+}
+
+/* Role badges and improved admin controls */
+.role-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin: 0 0 8px 0;
+}
+
+.creator-badge {
+    background-color: #f1c40f;
+    color: #7d6608;
+}
+
+.admin-badge {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.admin-controls {
+    background-color: #f8f9fa;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.admin-controls h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: #2c3e50;
+    font-size: 1.1rem;
+}
+
+.admin-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Consistent button styling across cards */
+.btn {
+    background-color: #3498db;
+    color: white;
+    font-weight: 500;
+    border: none;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+}
+
+.community-detail-container .community-header {
+    margin-bottom: 30px;
+}

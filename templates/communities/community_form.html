@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="community-form-container">
+    {% if edit_mode %}
+    <h1>Edit Community</h1>
+    {% else %}
+    <h1>Create New Community</h1>
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- CSRF token protection - Django security requirement -->
+        
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label }}">Community Name:</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+            <div class="form-error">{{ form.name.errors }}</div>
+            {% endif %}
+            <div class="help-text">Choose a descriptive name for your community</div>
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label }}">Description:</label>
+            {{ form.description }}
+            {% if form.description.errors %}
+            <div class="form-error">{{ form.description.errors }}</div>
+            {% endif %}
+            <div class="help-text">Describe what your community is about</div>
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.image.id_for_label }}">Community Image (optional):</label>
+            
+            {% if edit_mode and community.image %}
+            <!-- Display current image when editing - visual confirmation of existing content -->
+            <div class="current-image">
+                <img src="{{ community.image.url }}" alt="Current image">
+                <p>Current image</p>
+            </div>
+            {% endif %}
+            
+            <div class="image-upload-area">
+                <!-- Structured container for file input and clear button to ensure proper alignment -->
+                <div class="file-input-wrapper">
+                    <input type="file" name="image" id="{{ form.image.id_for_label }}" accept="image/*">
+                    <!-- accept="image/*" restricts to image files only -->
+                </div>
+                
+                {% if edit_mode and community.image %}
+                <div class="image-controls">
+                    <!-- Hidden checkbox works with Django's form processing -->
+                    <input type="checkbox" name="image-clear" id="image-clear_id" class="hidden-checkbox">
+                    
+                    <!-- Button-styled element provides better UX than standard checkbox -->
+                    <span id="clear-image-btn" class="clear-image-btn">Clear Image</span>
+                    <!-- Styled as button but actually controls the hidden checkbox -->
+                </div>
+                {% endif %}
+            </div>
+            
+            {% if form.image.errors %}
+            <div class="form-error">{{ form.image.errors }}</div>
+            {% endif %}
+            <div class="help-text">Upload an image to represent your community (will be resized to fit)</div>
+        </div>
+        
+        <div class="form-actions">
+            <!-- Two-button layout provides clear decision path -->
+            <a href="{% url 'community_list' %}" class="btn btn-outline">Cancel</a>
+            {% if edit_mode %}
+            <button type="submit" class="btn btn-primary">Update Community</button>
+            {% else %}
+            <button type="submit" class="btn btn-success">Create Community</button>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<script>
+    // JavaScript to handle the clear image button toggle
+    document.addEventListener('DOMContentLoaded', function() {
+        const clearBtn = document.getElementById('clear-image-btn');
+        const clearCheckbox = document.getElementById('image-clear_id');
+        
+        if (clearBtn && clearCheckbox) {
+            clearBtn.addEventListener('click', function() {
+                // Toggle checkbox state programmatically - maintains form functionality
+                clearCheckbox.checked = !clearCheckbox.checked;
+                
+                // Visual feedback through color change - improves user experience
+                if (clearCheckbox.checked) {
+                    clearBtn.classList.add('selected');
+                } else {
+                    clearBtn.classList.remove('selected');
+                }
+            });
+        }
+    });
+</script>
+{% endblock %} 

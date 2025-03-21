@@ -14,7 +14,7 @@
             <a class="nav-logo" href="/">UniHub</a>
             <a href="/">Home</a>
             <a href="{% url 'events' %}">Events</a>
-            <a href="#">Communities</a>
+            <a href="{% url 'community_list' %}">Communities</a>
         </div>
         <div>
             {% if user.is_authenticated %}

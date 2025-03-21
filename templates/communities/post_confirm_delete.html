@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="post-delete-container">
+    <h1>Delete Post</h1>
+    
+    <div class="alert">
+        <p>Are you sure you want to delete the post "<strong>{{ post.title }}</strong>"?</p>
+        <p>This action cannot be undone. All comments will also be deleted.</p>
+    </div>
+    
+    <div class="post-preview">
+        <h3>{{ post.title }}</h3>
+        <div class="post-meta">
+            <span>Posted by {{ post.author.username }}</span>
+            <span>{{ post.created_at|date:"F d, Y" }}</span>
+            <span>{{ post.comments.count }} comment{{ post.comments.count|pluralize }}</span>
+        </div>
+        <div class="post-content-preview">
+            <p>{{ post.content|truncatechars:200 }}</p>
+        </div>
+    </div>
+    
+    <div class="form-actions">
+        <form method="post">
+            {% csrf_token %}
+            <div class="button-group">
+                <a href="{% url 'post_detail' community_slug=community.slug post_id=post.id %}" class="btn btn-outline">Cancel</a>
+                <button type="submit" class="btn btn-danger">Delete Post</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .post-delete-container {
+        max-width: 600px;
+        margin: 30px auto;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 30px;
+    }
+    
+    .post-delete-container h1 {
+        color: #2c3e50;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+    
+    .alert {
+        background-color: #fee;
+        border-left: 4px solid #e74c3c;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+    }
+    
+    .alert p {
+        margin: 5px 0;
+        color: #c0392b;
+    }
+    
+    .post-preview {
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        padding: 15px;
+        margin-bottom: 25px;
+    }
+    
+    .post-preview h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: #2c3e50;
+    }
+    
+    .post-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #7f8c8d;
+    }
+    
+    .post-content-preview {
+        color: #555;
+        font-style: italic;
+    }
+    
+    .form-actions {
+        margin-top: 20px;
+    }
+    
+    .button-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+    
+    .button-group .btn {
+        flex: 1;
+    }
+</style>
+{% endblock %} 

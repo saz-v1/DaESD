@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="communities-container">
+    <div class="communities-header">
+        <h1>Communities</h1>
+    </div>
+    
+    {% if user.is_authenticated %}
+    <!-- New Community Section - Clear call to action for creating communities -->
+    <div class="new-community-section">
+        <h2>Create Your Own Community</h2>
+        <p>Start a community around your interests, academic subjects, or hobbies. Connect with like-minded peers and grow together.</p>
+        <a href="{% url 'create_community' %}" class="btn create-community-btn">Create Community</a>
+    </div>
+    {% endif %}
+    
+    <div class="communities-filter">
+        <!-- Search icon for better UI -->
+        <span class="search-icon">🔍</span>
+        <input type="text" id="community-search" placeholder="Search communities..." class="search-input">
+    </div>
+    
+    {% if communities %}
+    <!-- Heading to clearly separate existing communities -->
+    <h2 class="communities-section-title">Available Communities</h2>
+    
+    <div class="communities-grid">
+        {% for community in communities %}
+        <div class="community-card">
+            <div class="community-image">
+                {% if community.image %}
+                <img src="{{ community.image.url }}" alt="{{ community.name }}">
+                {% else %}
+                <div class="community-placeholder">{{ community.name|slice:":2"|upper }}</div>
+                {% endif %}
+            </div>
+            <div class="community-info">
+                <h3>{{ community.name }}</h3>
+                <p>{{ community.description|truncatechars:100 }}</p>
+                <div class="community-meta">
+                    <span class="tag member-count">{{ community.member_count }} members</span>
+                    <span class="tag date">Created {{ community.created_at|date:"M d, Y" }}</span>
+                </div>
+                <div class="community-actions">
+                    <a href="{% url 'community_detail' slug=community.slug %}" class="btn btn-primary">View Community</a>
+                    
+                    {% if user == community.creator or user.is_staff %}
+                    <div class="manage-actions">
+                        <a href="{% url 'edit_community' slug=community.slug %}" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="{% url 'manage_members' slug=community.slug %}" class="btn btn-sm btn-primary">Manage</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <!-- Enhanced empty state with icon -->
+    <div class="empty-state">
+        <div class="empty-state-icon">🏛️</div>
+        <p>No communities yet. Be the first to create one!</p>
+        {% if user.is_authenticated %}
+        <a href="{% url 'create_community' %}" class="btn create-community-btn">Create Community</a>
+        {% else %}
+        <a href="{% url 'login' %}" class="btn btn-primary">Login to Create</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        {% if user_created_communities or user_admin_communities %}
+        <!-- Heading for user-managed communities -->
+        <h2 class="communities-section-title">My Communities</h2>
+        
+        <div class="communities-grid">
+            {% for community in user_created_communities %}
+            <div class="community-card">
+                <div class="community-image">
+                    {% if community.image %}
+                    <img src="{{ community.image.url }}" alt="{{ community.name }}">
+                    {% else %}
+                    <div class="community-placeholder">{{ community.name|slice:":2"|upper }}</div>
+                    {% endif %}
+                </div>
+                <div class="community-info">
+                    <h3>{{ community.name }}</h3>
+                    <div class="role-badge creator-badge">Creator</div>
+                    <p>{{ community.description|truncatechars:100 }}</p>
+                    <div class="community-meta">
+                        <span class="tag member-count">{{ community.members.count }} members</span>
+                        <span class="tag date">Created {{ community.created_at|date:"M d, Y" }}</span>
+                    </div>
+                    <div class="community-actions">
+                        <a href="{% url 'community_detail' slug=community.slug %}" class="btn btn-primary">View Community</a>
+                        <div class="manage-actions">
+                            <a href="{% url 'edit_community' slug=community.slug %}" class="btn btn-sm btn-primary">Edit</a>
+                            <a href="{% url 'manage_members' slug=community.slug %}" class="btn btn-sm btn-primary">Manage</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+            {% for community in user_admin_communities %}
+            <div class="community-card">
+                <div class="community-image">
+                    {% if community.image %}
+                    <img src="{{ community.image.url }}" alt="{{ community.name }}">
+                    {% else %}
+                    <div class="community-placeholder">{{ community.name|slice:":2"|upper }}</div>
+                    {% endif %}
+                </div>
+                <div class="community-info">
+                    <h3>{{ community.name }}</h3>
+                    <div class="role-badge admin-badge">Admin</div>
+                    <p>{{ community.description|truncatechars:100 }}</p>
+                    <div class="community-meta">
+                        <span class="tag member-count">{{ community.members.count }} members</span>
+                        <span class="tag date">Created {{ community.created_at|date:"M d, Y" }}</span>
+                    </div>
+                    <div class="community-actions">
+                        <a href="{% url 'community_detail' slug=community.slug %}" class="btn btn-primary">View Community</a>
+                        <div class="manage-actions">
+                            <a href="{% url 'edit_community' slug=community.slug %}" class="btn btn-sm btn-primary">Edit</a>
+                            <a href="{% url 'manage_members' slug=community.slug %}" class="btn btn-sm btn-primary">Manage</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endif %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('community-search');
+        const communityCards = document.querySelectorAll('.community-card');
+        
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            let resultsFound = false;
+            
+            communityCards.forEach(card => {
+                const communityName = card.querySelector('h3').textContent.toLowerCase();
+                const communityDescription = card.querySelector('p').textContent.toLowerCase();
+                
+                if (communityName.includes(searchTerm) || communityDescription.includes(searchTerm)) {
+                    card.style.display = '';
+                    resultsFound = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Show no results message if needed
+            const noResultsElement = document.getElementById('no-results');
+            if (!resultsFound && searchTerm.length > 0) {
+                if (!noResultsElement) {
+                    const noResults = document.createElement('div');
+                    noResults.id = 'no-results';
+                    noResults.className = 'empty-state';
+                    noResults.innerHTML = '<p>No communities match your search.</p>';
+                    document.querySelector('.communities-grid').after(noResults);
+                }
+            } else if (noResultsElement) {
+                noResultsElement.remove();
+            }
+        });
+    });
+</script>
+{% endblock %} 

@@ -19,6 +19,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import render
 from .views import api_home, register, profile_view
+from django.conf import settings
+from django.conf.urls.static import static
 
 def home(request):
     return render(request, "home.html")
@@ -30,5 +32,10 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),  #  Adds login/logout/password reset
     path("register/", register, name="register"),  #  User Registration
     path("profile/", profile_view, name='profile'),
-    path("", include("events.urls")),  #  Include events app urls
+    path("events/", include("events.urls")),  #  Include events app urls
+    path("communities/", include("communities.urls")),  # Include communities app urls
 ]
+
+# Add this to serve media files in development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
