@@ -55,11 +55,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "unihub.wsgi.application"
 
-# Database Configuration - Using SQLite
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_DB', 'unihub'),
+        'USER': os.environ.get('POSTGRES_USER', 'unihubuser'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'unihubpass'),
+        'HOST': os.environ.get('DB_HOST', 'db'),
+        'PORT': '5432',
     }
 }
 
