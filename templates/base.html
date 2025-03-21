@@ -18,7 +18,7 @@
         </div>
         <div>
             {% if user.is_authenticated %}
-                <a href="#">Profile</a>
+                <a href="{% url 'profile' %}">Profile</a>
                 <!-- form used for post method and csrf token to protect again csrf attacks (fixes error 405) -->
                 <form class="logout-form" method="post" action="{% url 'logout' %}" style="display: inline;">
                     {% csrf_token %}
