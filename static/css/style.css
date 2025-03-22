@@ -900,240 +900,92 @@ h1, h2, h3 {
 
 /* Unified Button System for Communities */
 .btn {
-    display: inline-block;
-    padding: 10px 16px;
-    border-radius: 6px;
-    text-align: center;
-    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    height: 42px;
     font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
     cursor: pointer;
-    text-decoration: none;
     transition: all 0.2s ease;
+    text-decoration: none;
     border: none;
-    line-height: 1.5;
+    white-space: nowrap;
     background-color: #3498db;
     color: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .btn:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    opacity: 0.9;
+    transform: translateY(-1px);
 }
 
 .btn:active {
     transform: translateY(0);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-}
-
-/* Button sizes */
-.btn-sm {
-    padding: 6px 12px;
-    font-size: 13px;
-    border-radius: 4px;
-}
-
-.btn-lg {
-    padding: 12px 20px;
-    font-size: 16px;
 }
 
 /* Button variants */
-.btn-primary {
-    background-color: #3498db;
-    color: white;
-}
-
-.btn-primary:hover {
-    background-color: #2980b9;
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid currentColor;
+    color: #3498db;
 }
 
 .btn-success {
-    background-color: #27ae60;
-    color: white;
-}
-
-.btn-success:hover {
-    background-color: #219955;
+    background-color: #2ecc71;
 }
 
 .btn-danger {
     background-color: #e74c3c;
-    color: white;
 }
 
-.btn-danger:hover {
-    background-color: #c0392b;
-}
-
-/* Override specific button styles */
-.create-community-btn {
-    background-color: #27ae60;
-    color: white;
-    padding: 12px 20px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.create-community-btn:hover {
-    background-color: #219955;
-}
-
-.create-community-btn:active {
-    transform: translateY(0);
-}
-
+/* Community specific styles */
 .community-actions {
     display: flex;
+    gap: 12px;
+    margin: 15px 0;
     flex-wrap: wrap;
-    gap: 10px;
+}
+
+.community-actions form {
+    margin: 0;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+}
+
+/* Create community button */
+.create-community-btn {
+    background-color: #2ecc71;
+    padding-left: 40px;
+    position: relative;
+}
+
+.create-community-btn::before {
+    content: "+";
+    position: absolute;
+    left: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Empty state button */
+.empty-state .btn {
     margin-top: 15px;
 }
 
-.community-card .community-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.community-actions .btn {
-    min-width: 120px;
-    text-align: center;
-    justify-content: center;
-}
-
-.manage-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
-}
-
-.community-card .manage-actions {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    margin-top: 8px;
-}
-
+/* Admin controls */
 .admin-controls {
-    background-color: #f8f9fa;
+    margin-top: 20px;
     padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    border-left: 4px solid #3498db;
-}
-
-.admin-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-/* Community form buttons */
-.community-form-container .btn {
-    padding: 12px 24px;
-    font-size: 16px;
-}
-
-/* Post buttons */
-.post-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
-}
-
-/* Empty state buttons */
-.empty-state .btn {
-    padding: 12px 24px;
-    font-weight: bold;
-}
-
-/* Empty state styling */
-.empty-state {
-    grid-column: 1 / -1;
-    background-color: white;
-    padding: 40px 20px;
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    margin: 20px 0;
-}
-
-.empty-state p {
-    color: #7f8c8d;
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-}
-
-.empty-state-icon {
-    font-size: 3rem;
-    color: #bdc3c7;
-    margin-bottom: 15px;
-}
-
-.empty-state .btn {
-    background-color: #27ae60;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 4px;
-    font-weight: bold;
-    display: inline-block;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-.empty-state .btn:hover {
-    background-color: #2ecc71;
-    transform: translateY(-2px);
-}
-
-/* New community section */
-.new-community-section {
     background-color: #f8f9fa;
     border-radius: 8px;
-    padding: 30px;
-    margin-bottom: 40px;
-    border: 2px dashed #e0e0e0;
-    text-align: center;
-    transition: background-color 0.3s;
 }
 
-.new-community-section:hover {
-    background-color: #f0f5ff;
-}
-
-.new-community-section h2 {
-    margin-top: 0;
-    color: #2c3e50;
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-}
-
-.new-community-section p {
-    color: #7f8c8d;
-    margin-bottom: 20px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.new-community-section .btn {
-    background-color: #27ae60;
-    color: white;
-    padding: 12px 30px;
-    border-radius: 4px;
-    font-weight: bold;
-    display: inline-block;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-.new-community-section .btn:hover {
-    background-color: #2ecc71;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+.admin-controls .btn {
+    margin-right: 10px;
 }
 
 /* Community section title */
