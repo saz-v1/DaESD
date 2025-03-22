@@ -57,28 +57,62 @@ input, textarea, select {
     box-sizing: border-box;
 }
 
-button, .btn {
+/* Button styling */
+.btn, button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+    padding: 0 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    border: none;
     background-color: #3498db;
     color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    box-sizing: border-box;
 }
 
-button:hover, .btn:hover {
-    background-color: #2980b9;
+.btn:hover, button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
 }
 
-/* Content sections */
-.content {
-    padding: 20px;
+.btn:active, button:active {
+    transform: translateY(0);
 }
 
-h1, h2, h3 {
-    color: #2c3e50;
+/* Button variants */
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid currentColor;
+    color: #3498db;
+    padding: 0 19px; /* Compensate for border */
+}
+
+.btn-outline:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+.btn-primary {
+    background-color: #3498db;
+}
+
+.btn-success {
+    background-color: #2ecc71;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+}
+
+.btn-sm {
+    padding: 0 12px;
+    height: 32px;
+    font-size: 13px;
 }
 
 /* Helper classes */
@@ -183,12 +217,22 @@ h1, h2, h3 {
 
 .tag {
     display: inline-block;
-    background-color: #e7f5ff;
-    color: #3498db;
-    padding: 5px 10px;
+    padding: 4px 10px;
     border-radius: 15px;
+    font-size: 13px;
+    background: #f1f1f1;
+    color: #7f8c8d;
     margin: 0 5px 5px 0;
-    font-size: 14px;
+}
+
+.tag.member-count {
+    background-color: #e8f4fd;
+    color: #3498db;
+}
+
+.tag.date {
+    background-color: #f0f9eb;
+    color: #27ae60;
 }
 
 /* Profile content styling */
@@ -522,7 +566,7 @@ h1, h2, h3 {
     justify-content: center;
     background-color: #3498db;
     color: white;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: bold;
 }
 
@@ -622,7 +666,7 @@ h1, h2, h3 {
 .communities-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 20px;
 }
 
 .communities-header {
@@ -677,8 +721,7 @@ h1, h2, h3 {
 
 .search-input {
     width: 100%;
-    padding: 12px 15px;
-    padding-left: 40px;
+    padding: 12px 15px 12px 40px;
     border: 1px solid #ddd;
     border-radius: 6px;
     font-size: 16px;
@@ -701,13 +744,13 @@ h1, h2, h3 {
     top: 50%;
     transform: translateY(-50%);
     color: #95a5a6;
-    font-size: 18px;
 }
 
 .communities-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 25px;
+    margin: 25px 0;
 }
 
 .community-card {
@@ -715,10 +758,9 @@ h1, h2, h3 {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: transform 0.3s;
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 
 .community-card:hover {
@@ -726,55 +768,21 @@ h1, h2, h3 {
     box-shadow: 0 8px 16px rgba(0,0,0,0.1);
 }
 
-.community-image {
-    width: 100%;
-    height: 160px;
-    overflow: hidden;
-    position: relative;
-    background-color: #f5f5f5;
-}
-
-.community-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.5s;
-}
-
-.community-card:hover .community-image img {
-    transform: scale(1.05);
-}
-
-.community-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #3498db;
-    color: white;
-    font-size: 2.5rem;
-    font-weight: bold;
-}
-
-.community-info {
+.community-card .community-info {
     padding: 20px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
 
-.community-info h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: #2c3e50;
+.community-card .community-info h3 {
+    margin: 0 0 10px;
     font-size: 1.3rem;
 }
 
-.community-info p {
+.community-card .community-info p {
     color: #7f8c8d;
-    margin-bottom: 15px;
+    margin: 0 0 15px;
     line-height: 1.5;
     flex-grow: 1;
 }
@@ -808,142 +816,6 @@ h1, h2, h3 {
 /* Button styles for community actions */
 .community-actions {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.community-actions .btn,
-.community-actions form button,
-.community-actions a {
-    min-width: 120px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 16px;
-    box-sizing: border-box;
-    margin: 0;
-    height: 42px; /* Fixed height for all buttons */
-}
-
-.community-actions form {
-    margin: 0;
-    padding: 0;
-    display: block;
-}
-
-.community-actions button {
-    width: 100%;
-    cursor: pointer;
-    font-family: inherit;
-}
-
-/* Fix for button variants in all contexts */
-.btn-outline {
-    background-color: transparent;
-    color: #3498db;
-    border: 1px solid #3498db;
-    padding: 9px 15px; /* Adjust for border */
-}
-
-.btn-outline:hover {
-    background-color: rgba(52, 152, 219, 0.1);
-    color: #2980b9;
-    border-color: #2980b9;
-}
-
-/* Ensure all buttons have the same box-sizing */
-.btn, button, a.btn {
-    box-sizing: border-box;
-}
-
-/* Community detail specific actions */
-.community-detail-container .community-actions {
-    padding: 15px 0;
-}
-
-.community-detail-container .admin-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    width: 100%;
-    margin-bottom: 15px;
-}
-
-.post-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 10px;
-}
-
-.manage-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
-}
-
-/* Make community list card actions stack better */
-.community-card .community-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.community-card .manage-actions {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 8px;
-}
-
-/* Unified Button System for Communities */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
-    height: 42px;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    border: none;
-    white-space: nowrap;
-    background-color: #3498db;
-    color: white;
-}
-
-.btn:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-}
-
-.btn:active {
-    transform: translateY(0);
-}
-
-/* Button variants */
-.btn-outline {
-    background-color: transparent;
-    border: 1px solid currentColor;
-    color: #3498db;
-}
-
-.btn-success {
-    background-color: #2ecc71;
-}
-
-.btn-danger {
-    background-color: #e74c3c;
-}
-
-/* Community specific styles */
-.community-actions {
-    display: flex;
     gap: 12px;
     margin: 15px 0;
     flex-wrap: wrap;
@@ -954,6 +826,22 @@ h1, h2, h3 {
     padding: 0;
     background: none;
     box-shadow: none;
+}
+
+.community-card .community-actions {
+    flex-direction: column;
+    gap: 8px;
+}
+
+.manage-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.community-card .manage-actions {
+    flex-direction: row;
+    justify-content: center;
 }
 
 /* Create community button */
@@ -972,73 +860,42 @@ h1, h2, h3 {
 }
 
 /* Empty state button */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin: 20px 0;
+}
+
+.empty-state-icon {
+    font-size: 3rem;
+    color: #bdc3c7;
+    margin-bottom: 15px;
+}
+
+.empty-state p {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
 .empty-state .btn {
     margin-top: 15px;
 }
 
 /* Admin controls */
 .admin-controls {
-    margin-top: 20px;
+    background: #f8f9fa;
     padding: 15px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-}
-
-.admin-controls .btn {
-    margin-right: 10px;
-}
-
-/* Community section title */
-.communities-section-title {
-    margin: 40px 0 20px 0;
-    color: #2c3e50;
-    font-size: 1.5rem;
-    position: relative;
-    padding-left: 15px;
-}
-
-.communities-section-title::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background-color: #3498db;
-    border-radius: 4px;
-}
-
-/* Role badges and improved admin controls */
-.role-badge {
-    display: inline-block;
-    padding: 3px 8px;
-    border-radius: 30px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    margin: 0 0 8px 0;
-}
-
-.creator-badge {
-    background-color: #f1c40f;
-    color: #7d6608;
-}
-
-.admin-badge {
-    background-color: #3498db;
-    color: #fff;
-}
-
-.admin-controls {
-    background-color: #f8f9fa;
-    padding: 15px;
-    margin-bottom: 20px;
+    margin: 20px 0;
     border-radius: 8px;
     border-left: 4px solid #3498db;
 }
 
 .admin-controls h3 {
-    margin-top: 0;
-    margin-bottom: 12px;
+    margin: 0 0 12px;
     color: #2c3e50;
     font-size: 1.1rem;
 }
@@ -1049,32 +906,55 @@ h1, h2, h3 {
     gap: 10px;
 }
 
-/* Consistent button styling across cards */
-.btn {
+/* Community section title */
+.communities-section-title {
+    margin: 40px 0 20px;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    padding-left: 15px;
+    border-left: 4px solid #3498db;
+}
+
+/* Role badges and improved admin controls */
+.role-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.creator-badge {
+    background-color: #f1c40f;
+    color: #7d6608;
+}
+
+.admin-badge {
     background-color: #3498db;
     color: white;
-    font-weight: 500;
-    border: none;
 }
 
-.btn:hover {
-    background-color: #2980b9;
+/* Post-related styling */
+.post-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
 }
 
+/* Specific community detail fixes */
 .community-detail-container .community-header {
     margin-bottom: 30px;
 }
 
-/* Additional specific fixes for community detail buttons */
 .community-detail-container .community-actions .btn,
-.community-detail-container .community-actions form button {
-    width: 150px; /* Equal width for both buttons */
-    height: 42px;
+.community-detail-container .community-actions button {
+    width: 150px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 16px;
-    box-sizing: border-box;
     font-size: 14px;
     line-height: 1;
 }
@@ -1084,15 +964,19 @@ h1, h2, h3 {
 }
 
 .community-detail-container .community-actions {
-    display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
 }
 
-/* Special fix for outline buttons to match heights exactly */
-.community-detail-container .community-actions .btn-outline {
-    padding: 0 15px;
-    height: 42px;
-    border-width: 1px;
+@media (max-width: 768px) {
+    .communities-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .community-actions {
+        flex-direction: column;
+    }
+    
+    .community-actions .btn {
+        width: 100%;
+    }
 }
