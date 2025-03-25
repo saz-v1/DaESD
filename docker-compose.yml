@@ -15,6 +15,8 @@ services:
       - POSTGRES_USER=unihubuser
       - POSTGRES_PASSWORD=unihubpass
       - DB_HOST=db
+    networks:
+      - unihub-network
 
   db:
     image: postgres:15
@@ -25,6 +27,12 @@ services:
       POSTGRES_PASSWORD: unihubpass
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - unihub-network
+
+networks:
+  unihub-network:
+    driver: bridge
 
 volumes:
   postgres_data:

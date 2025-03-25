@@ -66,10 +66,10 @@ WSGI_APPLICATION = "unihub.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB', 'unihub'),
-        'USER': os.environ.get('POSTGRES_USER', 'unihubuser'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'unihubpass'),
-        'HOST': os.environ.get('DB_HOST', 'db'),
+        'NAME': 'unihub',
+        'USER': 'unihubuser',
+        'PASSWORD': 'unihubpass',
+        'HOST': 'db',  # This matches the service name in docker-compose.yml
         'PORT': '5432',
     }
 }
