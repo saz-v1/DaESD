@@ -6,7 +6,7 @@ RUN apt update && apt install -y libpq-dev gcc netcat-openbsd
 
 COPY . /app
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Create media directory if it doesn't exist and set permissions
 RUN mkdir -p /app/media/community_images && \
