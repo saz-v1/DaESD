@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.contrib import messages
 from django.db.models import Count
+from django.utils import timezone
 
 from .models import Community, Membership, Post, Comment
 from .forms import CommunityForm, PostForm, CommentForm
@@ -35,7 +36,15 @@ def community_detail(request, slug):
     community = get_object_or_404(Community, slug=slug)
     posts = community.posts.all()
     is_member = request.user.is_authenticated and community.members.filter(id=request.user.id).exists()
-    
+
+    # Filter events based on ?filter=upcoming or ?filter=past
+    filter_type = request.GET.get('filter', 'upcoming')
+    if filter_type == 'past':
+        events = community.events.filter(start_time__lt=timezone.now()).order_by('-start_time')
+    else:
+        events = community.events.filter(start_time__gte=timezone.now()).order_by('start_time')
+
+
     if request.user.is_authenticated:
         try:
             membership = Membership.objects.get(user=request.user, community=community)
@@ -50,6 +59,8 @@ def community_detail(request, slug):
         'posts': posts,
         'is_member': is_member,
         'user_role': user_role,
+        'events': events,
+        'filter_type': filter_type,
     })
 
 @login_required

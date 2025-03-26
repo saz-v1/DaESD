@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <h2>{{ event.title }}</h2>
+  <p><strong>Date:</strong> {{ event.start_time|date:"D d M Y H:i" }}</p>
+  <p><strong>Description:</strong> {{ event.description }}</p>
+  {% if event.is_virtual %}
+  <p>
+    <strong>Link:</strong>
+    <a href="{{ event.virtual_link }}" target="_blank"
+      >{{ event.virtual_link }}</a
+    >
+  </p>
+  {% else %}
+  <p><strong>Location:</strong> {{ event.location }}</p>
+  {% endif %}
+  <p><strong>Community:</strong> {{ event.community.name }}</p>
+</div>
+{% endblock %}

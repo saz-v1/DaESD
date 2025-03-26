@@ -1,8 +1,117 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="container mt-4">
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <div class="d-flex justify-content-between align-items-center">
+        {% if filter_type == 'upcoming' %}
+        <h2>Upcoming Events</h2>
+        {% else %}
+        <h2>Past Events</h2>
+        {% endif %}
+        <div>
+          <a
+            href="?filter=upcoming"
+            class="btn {% if filter_type == 'upcoming' %}btn-primary{% else %}btn-outline-primary{% endif %} me-2"
+          >
+            Upcoming
+          </a>
+          <a
+            href="?filter=past"
+            class="btn {% if filter_type == 'past' %}btn-primary{% else %}btn-outline-primary{% endif %}"
+          >
+            Past
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    {% for event in events %}
+    <div class="col-md-12">
+      <div class="card mb-4 shadow-sm">
+        <div class="row g-0">
+          <!-- Left side of card -->
+          <div
+            class="col-md-3 d-flex align-items-center justify-content-center text-white p-3"
+            style="background-color: #334d67"
+          >
+            <div class="text-center">
+              <div class="display-4 fw-bold mb-0">
+                {{ event.start_time|date:"d" }}
+              </div>
+              <div class="h5 mb-0">{{ event.start_time|date:"M" }}</div>
+              <div class="small">{{ event.start_time|date:"Y" }}</div>
+            </div>
+          </div>
 
-{% block content %}
-<div class="content text-center">
-    <h1>Events Page</h1>
-    <p>Connect with university communities, join events, and collaborate with peers.</p>
+          <!-- Right side of card -->
+          <div class="col-md-9">
+            <div class="card-body">
+              <h5 class="card-title mb-2">
+                <a
+                  href="{% url 'event-detail' event.pk %}"
+                  class="text-decoration-none text-dark"
+                >
+                  {{ event.title }}
+                </a>
+              </h5>
+              <p>
+                <span
+                  class="badge rounded-pill d-inline-flex align-items-center px-3 py-2"
+                  style="
+                    background-color: #334d67;
+                    color: white;
+                    font-size: 1rem;
+                  "
+                >
+                  <!-- clock -->
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="me-2"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  {{ event.start_time|date:"H:i" }}
+                </span>
+              </p>
+
+              <p class="card-text">{{ event.description }}</p>
+              {% if event.is_virtual %}
+              <p class="card-text">
+                <strong>Location:</strong> {{ event.location }}<a
+                  href="{{ event.virtual_link }}"
+                  target="_blank"
+                  >Join Here</a
+                >
+              </p>
+              {% else %}
+              <p class="card-text">
+                <strong>Location:</strong> {{ event.location }}
+              </p>
+              {% endif %}
+              <a
+                href="{% url 'event-detail' event.pk %}"
+                class="btn btn-outline-primary btn-sm"
+              >
+                View Details
+              </a>
+              <p>{{ event.owner }}</p>
+              <p>{{ event.community }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 </div>
-{% endblock %} 
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <h2>Delete Event</h2>
+  <p>Are you sure you want to delete <strong>{{ object.title }}</strong>?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <a
+      href="{% url 'community_detail' slug=object.community.slug %}"
+      class="btn btn-secondary"
+      >Cancel</a
+    >
+    <button type="submit" class="btn btn-danger">Delete</button>
+  </form>
+</div>
+{% endblock %}

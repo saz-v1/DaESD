@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <h2 class="text-center mb-4">
+    {% if object %}Edit Event{% else %}Create Event{% endif %}
+  </h2>
+
+  <form method="post">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">
+      {% if object %}Update{% else %}Create Event{% endif %}
+    </button>
+    <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}
