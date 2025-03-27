@@ -6,16 +6,20 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import EventForm
 from django.urls import reverse_lazy
 from django.utils import timezone
+from .mixins import EventPermissionMixin
+from rest_framework.permissions import IsAdminUser
 
 # DRF generic view to handle listing all events and creating a new event (GET and POST)
 class EventListCreateView(generics.ListCreateAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    permission_classes = [IsAdminUser] # Only admins can update or delete events in api end point (http://localhost:8000/api/events/)
 
 # DRF generic view to handle retrieving, updating, and deleting a single event (GET, PUT, PATCH, DELETE)
 class EventRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    permission_classes = [IsAdminUser] 
 
 # Django view to render a list of events
 # Also includes a filter to show only past or upcoming events
@@ -38,7 +42,9 @@ def event_detail_view(request, pk):
     return render(request, "events/event_detail.html", {"event": event})
 
 # Django view to create a new event
-class EventCreateView(CreateView):
+# EventPermissionMixin - custom mixin to handle permission checks
+# Check mixins.py for more details
+class EventCreateView(EventPermissionMixin, CreateView):
     model = Event
     template_name = 'events/event_form.html'
     success_url = '/events/'
@@ -52,7 +58,7 @@ class EventCreateView(CreateView):
         return super().form_valid(form)
     
 # Django view to update an existing event
-class EventUpdateView(UpdateView):
+class EventUpdateView(EventPermissionMixin, UpdateView):
     model = Event
     template_name = 'events/event_form.html'
     form_class = EventForm
@@ -60,7 +66,7 @@ class EventUpdateView(UpdateView):
         return reverse_lazy('community_detail', kwargs={'slug': self.object.community.slug})
 
 # Django view to delete an existing event
-class EventDeleteView(DeleteView):
+class EventDeleteView(EventPermissionMixin, DeleteView):
     model = Event
     template_name = 'events/event_confirm_delete.html'
     def get_success_url(self):
