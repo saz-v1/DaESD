@@ -35,6 +35,7 @@ urlpatterns = [
     path("events/", include("events.urls")),  #  Include events app urls
     path("api/events/", include("events.api_urls")),
     path("communities/", include("communities.urls")),  # Include communities app urls
+    path("api/communities/", include("communities.api_urls")),
 ]
 
 # Add this to serve media files in development
