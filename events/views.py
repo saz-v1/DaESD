@@ -1,3 +1,4 @@
+# File: events/views.py
 from django.shortcuts import render, get_object_or_404
 from .models import Event
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -5,22 +6,33 @@ from .forms import EventForm
 from django.urls import reverse_lazy
 from django.utils import timezone
 from .mixins import EventPermissionMixin
-
-
+from django.db.models import Q  # Added for search functionality
 
 # Django view to render a list of events
-# Also includes a filter to show only past or upcoming events
+# Also includes a filter to show only past or upcoming events and search functionality
 def event_list_view(request):
     filter_type = request.GET.get('filter', 'upcoming')
+    search_query = request.GET.get('search', '')
 
+    # Base query for filtering upcoming or past events
     if filter_type == 'past':
         events = Event.objects.filter(start_time__lt=timezone.now()).order_by('-start_time')
     else:
         events = Event.objects.filter(start_time__gte=timezone.now()).order_by('start_time')
 
+    # Apply search filter if search query is provided
+    if search_query:
+        events = events.filter(
+            Q(title__icontains=search_query) | 
+            Q(description__icontains=search_query) | 
+            Q(location__icontains=search_query) | 
+            Q(community__name__icontains=search_query)
+        )
+
     return render(request, "events/events.html", {
         "events": events,
         "filter_type": filter_type,
+        "search_query": search_query,
     })
 
 # Django view to render a single event
@@ -49,6 +61,7 @@ class EventUpdateView(EventPermissionMixin, UpdateView):
     model = Event
     template_name = 'events/event_form.html'
     form_class = EventForm
+
     def get_success_url(self):
         return reverse_lazy('community_detail', kwargs={'slug': self.object.community.slug})
 
@@ -56,5 +69,6 @@ class EventUpdateView(EventPermissionMixin, UpdateView):
 class EventDeleteView(EventPermissionMixin, DeleteView):
     model = Event
     template_name = 'events/event_confirm_delete.html'
+
     def get_success_url(self):
         return reverse_lazy('community_detail', kwargs={'slug': self.object.community.slug})
