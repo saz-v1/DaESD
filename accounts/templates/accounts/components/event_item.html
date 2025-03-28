@@ -1,0 +1,8 @@
+<div class="event-item">
+    <h3>{{ event.title }}</h3>
+    <p>{{ event.start_time|date:"M d, Y" }} • {{ event.start_time|time:"H:i" }} • {{ event.location }}</p>
+    <div>
+        <span class="tag">{{ event.community }}</span>
+        <span class="tag">{{ event.type }}</span>
+    </div>
+</div>

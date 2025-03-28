@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="profile-container" style="display: flex;">
+    <!-- Profile Sidebar -->
+    <div class="profile-sidebar">
+        <div class="profile-picture">{{ user.username|slice:":2"|upper }}</div>
+        <div class="text-center">
+            <a href="{% url 'edit-profile' %}" class="edit-link">Edit Profile</a>
+        </div>
+        
+        <div class="profile-stats">
+            <div class="stat-item">
+                <div class="stat-value">{{ community_count }}</div>
+                <div class="stat-label">Communities</div>
+            </div>
+        </div>
+        
+        <h3 class="section-title">About Me</h3>
+        <p>{{ profile.bio|default:"No bio available." }}</p>
+        
+        
+        <h3 class="section-title">Academic Info</h3>
+        <p><strong>Degree:</strong> {{ profile.study_program|default:"No Degree listed" }}</p>
+    </div>
+    
+    <!-- Profile Content -->
+    <div class="profile-content">
+        <div class="profile-header">
+            <div class="profile-info">
+                <h1>{{ user.get_full_name|default:user.username }}</h1>
+                <p>@{{ user.username }} • {{ profile.study_program|default:"" }}</p>
+            </div>
+            <a class="edit-button" href="{% url 'edit-profile' %}" >Edit Profile</a>
+        </div>
+        
+        <div class="tab-navigation">
+            <button class="tab-button active" data-tab="overview">Overview</button>
+            <button class="tab-button" data-tab="communities">Communities</button>
+            <button class="tab-button" data-tab="events">Events</button>
+        </div>
+        
+       <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <h2 class="section-title">My Communities</h2>
+            <div class="community-list">
+                {% if my_communities %}
+                    {% for community in my_communities %}
+                        {% include "accounts/components/community_item.html" %}
+                    {% endfor %}
+                {% else %}
+                    <p>You haven’t joined any communities yet.</p>
+                {% endif %}
+            </div>
+            
+            <h2 class="section-title">Upcoming Events</h2>
+            <div class="event-list">
+                {% if upcoming_events %}
+                    {% for event in upcoming_events %}
+                        {% include "accounts/components/event_item.html" %}
+                    {% endfor %}
+                {% else %}
+                    <p>No upcoming events.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Communities Tab -->
+        <div id="communities" class="tab-content">
+            <h2 class="section-title">My Communities</h2>
+            <div class="community-list">
+                {% if my_communities %}
+                    {% for community in my_communities %}
+                        {% include "accounts/components/community_item.html" %}
+                    {% endfor %}
+                {% else %}
+                    <p>You haven’t joined any communities yet.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Events Tab -->
+        <div id="events" class="tab-content">
+            <h2 class="section-title">Upcoming Events</h2>
+            <div class="event-list">
+                {% if upcoming_events %}
+                    {% for event in upcoming_events %}
+                        {% include "accounts/components/event_item.html" %}
+                    {% endfor %}
+                {% else %}
+                    <p>No upcoming events.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div> 
+
+{% block extra_js %}
+<script>
+    // Tab navigation functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}
