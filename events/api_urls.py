@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import EventListCreateView, EventRetrieveUpdateDestroyView
+from .api_views import EventListCreateView, EventRetrieveUpdateDestroyView
 
 urlpatterns = [
     # DRF API paths

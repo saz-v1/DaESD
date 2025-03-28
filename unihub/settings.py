@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "rest_framework",  # For API support
     'events',  # Include events app
     'communities',  # Add the communities app
+    'accounts',  # Include events app
 ]
 
 # Add these settings for session management
@@ -111,3 +112,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Login URL for @login_required decorator
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

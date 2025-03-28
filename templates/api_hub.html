@@ -1,0 +1,94 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4">API Hub</h1>
+
+  <table class="table table-bordered table-hover">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Category</th>
+        <th scope="col">Endpoint</th>
+        <th scope="col">Supported Methods</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Communities -->
+      <tr>
+        <td>Communities</td>
+        <td><a href="/api/communities/">/api/communities/</a></td>
+        <td>GET, POST</td>
+      </tr>
+      <tr>
+        <td>Community Detail</td>
+        <td><a href="/api/communities/1/">/api/communities/&lt;id&gt;/</a></td>
+        <td>GET, PUT, PATCH, DELETE</td>
+      </tr>
+
+      <!-- Posts -->
+      <tr>
+        <td>Posts</td>
+        <td><a href="/api/communities/posts/">/api/communities/posts/</a></td>
+        <td>GET, POST</td>
+      </tr>
+      <tr>
+        <td>Post Detail</td>
+        <td>
+          <a href="/api/communities/posts/1/"
+            >/api/communities/posts/&lt;id&gt;/</a
+          >
+        </td>
+        <td>GET, PUT, PATCH, DELETE</td>
+      </tr>
+
+      <!-- Memberships -->
+      <tr>
+        <td>Memberships</td>
+        <td>
+          <a href="/api/communities/memberships/"
+            >/api/communities/memberships/</a
+          >
+        </td>
+        <td>GET, POST</td>
+      </tr>
+      <tr>
+        <td>Membership Detail</td>
+        <td>
+          <a href="/api/communities/memberships/1/"
+            >/api/communities/memberships/&lt;id&gt;/</a
+          >
+        </td>
+        <td>GET, PUT, PATCH, DELETE</td>
+      </tr>
+
+      <!-- Comments -->
+      <tr>
+        <td>Comments</td>
+        <td>
+          <a href="/api/communities/comments/">/api/communities/comments/</a>
+        </td>
+        <td>GET, POST</td>
+      </tr>
+      <tr>
+        <td>Comment Detail</td>
+        <td>
+          <a href="/api/communities/comments/1/"
+            >/api/communities/comments/&lt;id&gt;/</a
+          >
+        </td>
+        <td>GET, PUT, PATCH, DELETE</td>
+      </tr>
+
+      <!-- Events -->
+      <tr>
+        <td>Events</td>
+        <td><a href="/api/events/">/api/events/</a></td>
+        <td>GET, POST</td>
+      </tr>
+      <tr>
+        <td>Event Detail</td>
+        <td><a href="/api/events/1/">/api/events/&lt;id&gt;/</a></td>
+        <td>GET, PUT, PATCH, DELETE</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

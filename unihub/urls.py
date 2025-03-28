@@ -18,7 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import render
-from .views import api_home, register, profile_view
+from .views import api_hub
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -26,15 +26,19 @@ def home(request):
     return render(request, "home.html")
 
 urlpatterns = [
+    # Core app and API
     path("admin/", admin.site.urls),
     path("", home, name="home"),
-    path("api/", api_home, name="api-home"),  # API home route
-    path("accounts/", include("django.contrib.auth.urls")),  #  Adds login/logout/password reset
-    path("register/", register, name="register"),  #  User Registration
-    path("profile/", profile_view, name='profile'),
-    path("events/", include("events.urls")),  #  Include events app urls
+    path("api/", api_hub, name="api-hub"),  
+    # Events app and API
+    path("events/", include("events.urls")),  
     path("api/events/", include("events.api_urls")),
-    path("communities/", include("communities.urls")),  # Include communities app urls
+    # Communities app and API
+    path("communities/", include("communities.urls")),  
+    path("api/communities/", include("communities.api_urls")),
+    # Accounts app and API
+    path("accounts/", include("accounts.urls")),  
+    #path("api/accounts/", include("accounts.api_urls")), Not implemented yet
 ]
 
 # Add this to serve media files in development

@@ -1,25 +1,12 @@
 from django.shortcuts import render, get_object_or_404
-from rest_framework import generics
 from .models import Event
-from .serializers import EventSerializer
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import EventForm
 from django.urls import reverse_lazy
 from django.utils import timezone
 from .mixins import EventPermissionMixin
-from rest_framework.permissions import IsAdminUser
 
-# DRF generic view to handle listing all events and creating a new event (GET and POST)
-class EventListCreateView(generics.ListCreateAPIView):
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
-    permission_classes = [IsAdminUser] # Only admins can update or delete events in api end point (http://localhost:8000/api/events/)
 
-# DRF generic view to handle retrieving, updating, and deleting a single event (GET, PUT, PATCH, DELETE)
-class EventRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
-    permission_classes = [IsAdminUser] 
 
 # Django view to render a list of events
 # Also includes a filter to show only past or upcoming events
