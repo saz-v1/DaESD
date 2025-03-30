@@ -138,12 +138,19 @@ def edit_community(request, slug):
 def delete_community(request, slug):
     community = get_object_or_404(Community, slug=slug)
     
-    # Check if user is admin
-    try:
-        membership = Membership.objects.get(user=request.user, community=community)
-        if membership.role != 'admin':
-            return HttpResponseForbidden("You don't have permission to delete this community")
-    except Membership.DoesNotExist:
+    # Check if user is creator, staff, or admin
+    is_authorized = False
+    if request.user == community.creator or request.user.is_staff:
+        is_authorized = True
+    else:
+        try:
+            membership = Membership.objects.get(user=request.user, community=community)
+            if membership.role == 'admin':
+                is_authorized = True
+        except Membership.DoesNotExist:
+            pass
+    
+    if not is_authorized:
         return HttpResponseForbidden("You don't have permission to delete this community")
     
     if request.method == 'POST':
