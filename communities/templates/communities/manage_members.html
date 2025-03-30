@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h2>Manage Members - {{ community.name }}</h2>
+            <p class="text-muted">Manage members of your community.</p>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Community Members</h5>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Role</th>
+                                    <th>Joined</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for membership in memberships %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {% if membership.user.profile.avatar %}
+                                            <img src="{{ membership.user.profile.avatar.url }}" alt="{{ membership.user.username }}" class="rounded-circle me-2" style="width: 32px; height: 32px;">
+                                            {% else %}
+                                            <img src="{% static 'images/default-avatar.png' %}" alt="{{ membership.user.username }}" class="rounded-circle me-2" style="width: 32px; height: 32px;">
+                                            {% endif %}
+                                            <span>{{ membership.user.username }}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge {% if membership.role == 'admin' %}bg-danger{% elif membership.role == 'moderator' %}bg-warning{% else %}bg-primary{% endif %}">
+                                            {{ membership.role|title }}
+                                        </span>
+                                    </td>
+                                    <td>{{ membership.joined_at|date:"M d, Y" }}</td>
+                                    <td>
+                                        {% if membership.user != community.creator %}
+                                        <a href="{% url 'remove_member' community.slug membership.user.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to remove this member?')">
+                                            Remove
+                                        </a>
+                                        {% else %}
+                                        <span class="text-muted">Creator</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center">No members found.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <a href="{% url 'community_detail' community.slug %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Community
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %} 
