@@ -18,25 +18,38 @@ body {
 nav {
     background-color: #2c3e50;
     color: white;
-    padding: 1rem;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-nav a {
-    color: white;
+.nav-brand, .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+nav a, .logout-btn {
     text-decoration: none;
-    margin: 0 10px;
-    padding: 5px;
-    border-radius: 3px;
-    transition: background-color 0.3s;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    background: none;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: inherit;
 }
 
-nav a:hover {
-    background-color: #34495e;
+nav a:hover, .logout-btn:hover {
+    color: rgba(255, 255, 255, 0.8);
 }
 
+.logout-form {
+    margin: 0;
+    padding: 0;
+    display: inline;
+}
 
 /* Form styling */
 form {
@@ -182,6 +195,14 @@ input, textarea, select {
     justify-content: center;
     border-radius: 50%;
     margin: 0 auto 20px;
+    overflow: hidden;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .profile-stats {
@@ -979,4 +1000,67 @@ input, textarea, select {
     .community-actions .btn {
         width: 100%;
     }
+}
+
+/* Edit Profile Page Styles */
+.edit-profile-container {
+    max-width: 600px;
+}
+
+.edit-profile-form .form-label {
+    font-weight: 500;
+}
+
+.edit-profile-form .btn-primary {
+    margin-top: 20px;
+}
+
+/* Profile Picture Styles */
+.profile-picture-wrapper {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+    position: relative;
+}
+
+.profile-picture-default {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #3498db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-picture-default span {
+    color: white;
+    font-size: 64px;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+/* Remove any conflicting styles */
+.profile-sidebar .profile-picture {
+    width: 150px !important;
+    height: 150px !important;
+}
+
+.profile-picture-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-danger.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+    height: auto;
+    background-color: #dc3545;
+}
+
+.btn-danger.btn-sm:hover {
+    background-color: #c82333;
 }

@@ -12,25 +12,21 @@
 <body>
     <nav>
         <div class="nav-brand">
-            <!-- nav brand is now used to group the logo and navlinks and navlogo has its own class for styling -->
             <a class="nav-logo" href="/">UniHub</a>
             <a href="/">Home</a>
             <a href="{% url 'event-list' %}">Events</a>
             <a href="{% url 'community_list' %}">Communities</a>
         </div>
-        <div>
+        <div class="nav-links">
             {% if user.is_authenticated %}
-                <a href="{% url 'profile' %}">Profile</a>
-                <!-- form used for post method and csrf token to protect again csrf attacks (fixes error 405) -->
-                <form class="logout-form" method="post" action="{% url 'logout' %}" style="display: inline;">
+                <a href="{% url 'accounts:profile' %}">Profile</a>
+                <form class="logout-form" method="post" action="{% url 'accounts:logout' %}">
                     {% csrf_token %}
-                    <button class="logout-link" type="submit">
-                        Logout
-                    </button>
+                    <button type="submit" class="logout-btn">Logout</button>
                 </form>
             {% else %}
-                <a href="{% url 'login' %}">Login</a>
-                <a href="{% url 'register' %}">Register</a>
+                <a href="{% url 'accounts:login' %}">Login</a>
+                <a href="{% url 'accounts:register' %}">Register</a>
             {% endif %}
         </div>
     </nav>

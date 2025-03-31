@@ -7,6 +7,8 @@ from communities.models import Membership
 from events.models import Event
 from django.utils import timezone
 from .models import Profile
+from django.contrib import messages
+import os
 
 def register(request):
     if request.method == "POST":
@@ -47,18 +49,41 @@ def profile_view(request):
 
 @login_required
 def edit_profile(request):
-    profile, created = Profile.objects.get_or_create(user=request.user)
-
-    # Forms from forms.py file to edit user and profile
     if request.method == 'POST':
-        user_form = UserEditForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, instance=profile)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            return redirect('profile')
+        form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            # Update profile
+            profile = form.save(commit=False)
+            profile.save()
+            
+            # Update user
+            user = request.user
+            user.first_name = request.POST.get('first_name')
+            user.last_name = request.POST.get('last_name')
+            user.email = request.POST.get('email')
+            user.save()
+            
+            messages.success(request, 'Profile updated successfully!')
+            return redirect('accounts:profile')
     else:
-        user_form = UserEditForm(instance=request.user)
-        profile_form = ProfileForm(instance=profile)
+        form = ProfileForm(instance=request.user.profile)
+    
+    return render(request, 'accounts/edit_profile.html', {'form': form})
 
-    return render(request, 'accounts/edit_profile.html', {'user_form': user_form,'profile_form': profile_form})
+@login_required
+def remove_profile_picture(request):
+    if request.method == 'POST':
+        profile = request.user.profile
+        if profile.profile_picture:
+            try:
+                # Delete the actual file
+                profile.profile_picture.delete(save=False)  # This deletes the file
+                # Clear the field
+                profile.profile_picture = None
+                profile.save()
+                messages.success(request, 'Profile picture removed successfully.')
+            except Exception as e:
+                messages.error(request, f'Error removing profile picture: {str(e)}')
+        
+        return redirect('accounts:edit_profile')
+    return redirect('accounts:edit_profile')

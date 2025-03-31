@@ -1,9 +1,14 @@
 from django.urls import path, include
-from .views import register, profile_view, edit_profile
+from django.contrib.auth import views as auth_views
+from . import views
+
+app_name = 'accounts'
 
 urlpatterns = [
-    path("register/", register, name="register"),  # custom register view
-    path("profile/", profile_view, name="profile"),  # custom profile view
-    path("", include("django.contrib.auth.urls")),  # built-in login, logout, password reset, etc.
-    path('edit/', edit_profile, name='edit-profile'),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('register/', views.register, name='register'),
+    path('profile/', views.profile_view, name='profile'),
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('remove-profile-picture/', views.remove_profile_picture, name='remove_profile_picture'),
 ]
