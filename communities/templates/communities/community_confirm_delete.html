@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-danger">Delete Community</h2>
+                    <p class="card-text">
+                        Are you sure you want to delete the community "{{ community.name }}"?
+                        This action cannot be undone and will permanently delete:
+                    </p>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">All posts and comments</li>
+                        <li class="list-group-item">All member relationships</li>
+                        <li class="list-group-item">All community settings and data</li>
+                    </ul>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Delete Community
+                            </button>
+                            <a href="{% url 'community_detail' community.slug %}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
