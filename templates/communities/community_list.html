@@ -64,7 +64,7 @@
         {% if user.is_authenticated %}
         <a href="{% url 'create_community' %}" class="btn create-community-btn">Create Community</a>
         {% else %}
-        <a href="{% url 'login' %}" class="btn btn-primary">Login to Create</a>
+        <a href="{% url 'accounts:login' %}" class="btn btn-primary">Login to Create</a>
         {% endif %}
     </div>
     {% endif %}
