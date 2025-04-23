@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'events',  # Include events app
     'communities',  # Add the communities app
     'accounts',  # Include events app
+    'posts',
 ]
 
 # Add these settings for session management

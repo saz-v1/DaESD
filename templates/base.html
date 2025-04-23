@@ -16,6 +16,8 @@
             <a href="/">Home</a>
             <a href="{% url 'event-list' %}">Events</a>
             <a href="{% url 'community_list' %}">Communities</a>
+            <a href="{% url 'posts_home' %}">Posts</a>
+
         </div>
         <div class="nav-links">
             {% if user.is_authenticated %}
