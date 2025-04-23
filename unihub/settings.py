@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'django.contrib.humanize',
     "rest_framework",  # For API support
     'events',  # Include events app
     'communities',  # Add the communities app
@@ -64,6 +65,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "unihub.wsgi.application"
+ASGI_APPLICATION = "unihub.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+    },
+}
 
 DATABASES = {
     'default': {
