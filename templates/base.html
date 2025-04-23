@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load humanize %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <!-- Bootstrap 5 (CDN) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <nav>
@@ -16,8 +18,38 @@
             <a href="/">Home</a>
             <a href="{% url 'event-list' %}">Events</a>
             <a href="{% url 'community_list' %}">Communities</a>
+            <a href="{% url 'posts_home' %}">Posts</a>
         </div>
+
         <div class="nav-links">
+            <div class="position-relative">
+                <button type="button" id="notificationButton" class="notification-bell-btn">
+                    <i class="fas fa-bell fa-lg"></i>
+                    {% if unread_count > 0 %}
+                    <span class="notification-count" id="notificationCount">{{ unread_count }}</span>
+                    {% endif %}
+                </button>
+            
+                <div id="notificationList" class="notification-list">
+                    <div class="notification-header">
+                        Notifications
+                    </div>
+            
+                    {% if notifications %}
+                        {% for notification in notifications %}
+                            <a href="#" class="notification-item">
+                                <p class="fw-medium mb-1">{{ notification.message|default:"No message" }}</p>
+                                <p class="text-muted small mb-0">{{ notification.timestamp|naturaltime }}</p>
+                            </a>
+                        {% endfor %}
+                        <div class="text-center p-2 border-top">
+                            <button id="clearNotificationsBtn">Clear All Notifications</button>
+                        </div>
+                    {% else %}
+                        <div class="text-center p-3 text-muted">No notifications</div>
+                    {% endif %}
+                </div>
+            </div>
             {% if user.is_authenticated %}
                 <a href="{% url 'accounts:profile' %}">Profile</a>
                 <form class="logout-form" method="post" action="{% url 'accounts:logout' %}">
@@ -31,9 +63,63 @@
         </div>
     </nav>
 
-    <div class="container">
-        {% block content %}
+    <div class="container mt-4"> {% block content %}
         {% endblock %}
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Helper to get CSRF token from cookie
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const bellButton = document.getElementById("notificationButton");
+            const dropdown = document.getElementById("notificationList");
+            const countEl = document.getElementById("notificationCount");
+
+            bellButton.addEventListener("click", function (e) {
+                e.stopPropagation();
+                dropdown.classList.toggle("active");
+
+                // Only send request if dropdown is open
+                if (dropdown.classList.contains("active")) {
+                    fetch("{% url 'mark_notifications_read' %}", {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": getCookie('csrftoken'),
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({})
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === "success" && countEl) {
+                            countEl.style.display = "none";
+                        }
+                    });
+                }
+            });
+
+            document.addEventListener("click", function (e) {
+                if (!bellButton.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.classList.remove("active");
+                }
+            });
+        });
+    </script>
 </body>
 </html>

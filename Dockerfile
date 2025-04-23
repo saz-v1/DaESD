@@ -8,6 +8,7 @@ COPY . /app
 
 RUN pip install -r requirements.txt
 
+
 # Create media directory if it doesn't exist and set permissions
 RUN mkdir -p /app/media/community_images && \
     chmod -R 777 /app/media

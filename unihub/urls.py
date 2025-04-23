@@ -39,6 +39,7 @@ urlpatterns = [
     # Accounts app and API
     path("accounts/", include("accounts.urls")),  
     #path("api/accounts/", include("accounts.api_urls")), Not implemented yet
+    path("posts/", include("posts.urls")),
 ]
 
 # Add this to serve media files in development
