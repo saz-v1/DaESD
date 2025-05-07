@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import event_list_view, event_detail_view, EventCreateView, EventDeleteView, EventUpdateView
+from .views import event_list_view, event_detail_view, EventCreateView, EventDeleteView, EventUpdateView, event_register
 
 urlpatterns = [
     # List and detail paths
@@ -10,4 +10,6 @@ urlpatterns = [
     # Edit and delete paths
     path('events/<int:pk>/delete/', EventDeleteView.as_view(), name='event-delete'),
     path('events/<int:pk>/edit/', EventUpdateView.as_view(), name='event-edit'),
+    # Registration path
+    path('events/<int:pk>/register/', event_register, name='event-register'),
 ]

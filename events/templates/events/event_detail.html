@@ -1,18 +1,80 @@
 {% extends "base.html" %} {% block content %}
 <div class="container mt-4">
-  <h2>{{ event.title }}</h2>
-  <p><strong>Date:</strong> {{ event.start_time|date:"D d M Y H:i" }}</p>
-  <p><strong>Description:</strong> {{ event.description }}</p>
-  {% if event.is_virtual %}
-  <p>
-    <strong>Link:</strong>
-    <a href="{{ event.virtual_link }}" target="_blank"
-      >{{ event.virtual_link }}</a
-    >
-  </p>
-  {% else %}
-  <p><strong>Location:</strong> {{ event.location }}</p>
-  {% endif %}
-  <p><strong>Community:</strong> {{ event.community.name }}</p>
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">{{ event.title }}</h2>
+      
+      <div class="event-details mt-4">
+        <div class="row">
+          <div class="col-md-8">
+            <h4>Event Details</h4>
+            <p><strong>Date:</strong> {{ event.start_time|date:"D d M Y H:i" }}</p>
+            <p><strong>End Time:</strong> {{ event.end_time|date:"D d M Y H:i" }}</p>
+            <p><strong>Description:</strong></p>
+            <p class="description">{{ event.description }}</p>
+            
+            {% if event.required_materials %}
+            <p><strong>Required Materials:</strong></p>
+            <p class="materials">{{ event.required_materials }}</p>
+            {% endif %}
+            
+            {% if event.is_virtual %}
+            <p>
+              <strong>Virtual Link:</strong>
+              <a href="{{ event.virtual_link }}" target="_blank" class="btn btn-sm btn-primary">Join Meeting</a>
+            </p>
+            {% else %}
+            <p><strong>Location:</strong> {{ event.location }}</p>
+            {% endif %}
+            
+            <p><strong>Community:</strong> {{ event.community.name }}</p>
+            
+            <p>
+              <strong>Capacity:</strong> 
+              {% if event.max_capacity == 0 %}
+                Unlimited ({{ event.registered_users.count }} registered)
+              {% else %}
+                {{ event.registered_users.count }} / {{ event.max_capacity }} registered
+              {% endif %}
+            </p>
+          </div>
+          
+          <div class="col-md-4">
+            {% if event.requires_registration %}
+              {% if user.is_authenticated %}
+                {% if user in event.registered_users.all %}
+                  <div class="alert alert-success">
+                    You are registered for this event!
+                  </div>
+                {% elif event.is_full %}
+                  <div class="alert alert-warning">
+                    This event is full.
+                  </div>
+                {% else %}
+                  <form method="post" action="{% url 'event-register' event.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-block">
+                      Register for Event
+                    </button>
+                  </form>
+                {% endif %}
+              {% else %}
+                <div class="alert alert-info">
+                  Please <a href="{% url 'login' %}">login</a> to register for this event.
+                </div>
+              {% endif %}
+            {% endif %}
+            
+            {% if user == event.owner or user.is_staff %}
+              <div class="mt-3">
+                <a href="{% url 'event-edit' event.pk %}" class="btn btn-outline-primary">Edit Event</a>
+                <a href="{% url 'event-delete' event.pk %}" class="btn btn-outline-danger">Delete Event</a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

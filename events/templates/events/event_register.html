@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Register for {{ event.title }}</h2>
+            
+            <div class="event-details mt-4">
+                <h4>Event Details</h4>
+                <p><strong>Date:</strong> {{ event.start_time|date:"D d M Y H:i" }}</p>
+                <p><strong>Location:</strong> {{ event.location }}</p>
+                
+                {% if event.required_materials %}
+                <p><strong>Required Materials:</strong></p>
+                <p class="materials">{{ event.required_materials }}</p>
+                {% endif %}
+                
+                <p>
+                    <strong>Capacity:</strong>
+                    {% if event.max_capacity == 0 %}
+                        Unlimited ({{ event.registered_users.count }} registered)
+                    {% else %}
+                        {{ event.registered_users.count }} / {{ event.max_capacity }} registered
+                    {% endif %}
+                </p>
+                
+                <form method="post" class="mt-4">
+                    {% csrf_token %}
+                    <p>Are you sure you want to register for this event?</p>
+                    <button type="submit" class="btn btn-primary">Confirm Registration</button>
+                    <a href="{% url 'event-detail' event.pk %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
