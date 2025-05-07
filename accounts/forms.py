@@ -36,8 +36,9 @@ class UserEditForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['study_program', 'bio', 'profile_picture', 'date_of_birth', 'address']
+        fields = ['study_program', 'study_year', 'bio', 'profile_picture', 'date_of_birth', 'address']
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
             'address': forms.TextInput(attrs={'placeholder': 'Enter your address'}),
+            'study_year': forms.Select(attrs={'class': 'form-select'}),
         }

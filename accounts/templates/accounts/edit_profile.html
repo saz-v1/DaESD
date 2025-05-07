@@ -64,6 +64,16 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="id_study_year" class="form-label">Study Year</label>
+                    <select class="form-select" id="id_study_year" name="study_year">
+                        <option value="">Select your year</option>
+                        {% for value, label in form.fields.study_year.choices %}
+                            <option value="{{ value }}" {% if form.study_year.value == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
                     <label for="id_date_of_birth" class="form-label">Date of Birth</label>
                     <input type="date" class="form-control" id="id_date_of_birth" name="date_of_birth" value="{{ form.date_of_birth.value|date:'Y-m-d'|default:'' }}">
                 </div>

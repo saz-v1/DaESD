@@ -33,6 +33,7 @@
         
         <h3 class="section-title">Academic Info</h3>
         <p><strong>Degree:</strong> {{ profile.study_program|default:"No Degree listed" }}</p>
+        <p><strong>Year:</strong> {{ profile.get_study_year_display|default:"Not specified" }}</p>
     </div>
     
     <!-- Profile Content -->
@@ -40,7 +41,7 @@
         <div class="profile-header">
             <div class="profile-info">
                 <h1>{{ user.get_full_name|default:user.username }}</h1>
-                <p>@{{ user.username }} • {{ profile.study_program|default:"" }}</p>
+                <p>@{{ user.username }} • {{ profile.study_program|default:"" }} {% if profile.study_year %}({{ profile.get_study_year_display }}){% endif %}</p>
             </div>
             <a class="edit-button" href="{% url 'accounts:edit_profile' %}" >Edit Profile</a>
         </div>
