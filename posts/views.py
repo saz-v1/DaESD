@@ -33,7 +33,7 @@ def posts_home(request):
                     user=user,
                     message=f"{request.user.username} created a new post."
                 )
-            return redirect("posts_home")
+            return redirect("home")
              
     else:
      form = PostForm2()
