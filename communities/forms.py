@@ -12,9 +12,10 @@ class CommunityForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content']
+        fields = ['title', 'content', 'visibility']
         widgets = {
             'content': forms.Textarea(attrs={'rows': 5}),
+            'visibility': forms.RadioSelect(attrs={'class': 'visibility-options'}),
         }
 
 class CommentForm(forms.ModelForm):

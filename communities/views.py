@@ -34,8 +34,15 @@ def community_list(request):
 
 def community_detail(request, slug):
     community = get_object_or_404(Community, slug=slug)
-    posts = community.posts.all()
     is_member = request.user.is_authenticated and community.members.filter(id=request.user.id).exists()
+
+    # Get posts based on visibility
+    if is_member:
+        # Members can see all posts
+        posts = community.posts.all()
+    else:
+        # Non-members can only see public posts
+        posts = community.posts.filter(visibility='public')
 
     # Filter events based on ?filter=upcoming or ?filter=past
     filter_type = request.GET.get('filter', 'upcoming')
@@ -43,7 +50,6 @@ def community_detail(request, slug):
         events = community.events.filter(start_time__lt=timezone.now()).order_by('-start_time')
     else:
         events = community.events.filter(start_time__gte=timezone.now()).order_by('start_time')
-
 
     if request.user.is_authenticated:
         try:
@@ -224,6 +230,12 @@ def create_post(request, community_slug):
 def post_detail(request, community_slug, post_id):
     community = get_object_or_404(Community, slug=community_slug)
     post = get_object_or_404(Post, id=post_id, community=community)
+    
+    # Check if user can view the post
+    is_member = request.user.is_authenticated and community.members.filter(id=request.user.id).exists()
+    if not is_member and post.visibility == 'members_only':
+        return HttpResponseForbidden("This post is only visible to community members")
+    
     comments = post.comments.all()
     
     # Comment form for logged in users

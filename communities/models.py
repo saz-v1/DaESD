@@ -53,12 +53,18 @@ class Membership(models.Model):
 
 
 class Post(models.Model):
+    VISIBILITY_CHOICES = [
+        ('public', 'Public'),
+        ('members_only', 'Members Only'),
+    ]
+    
     title = models.CharField(max_length=200)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     community = models.ForeignKey(Community, on_delete=models.CASCADE, related_name='posts')
+    visibility = models.CharField(max_length=20, choices=VISIBILITY_CHOICES, default='public')
     
     def __str__(self):
         return self.title

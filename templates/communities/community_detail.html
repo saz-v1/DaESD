@@ -81,6 +81,11 @@
                             <span>By {{ post.author.username }}</span>
                             <span>{{ post.created_at|date:"M d, Y" }}</span>
                             <span>{{ post.comments.count }} comments</span>
+                            {% if post.visibility == 'members_only' %}
+                            <span class="visibility-badge members-only">Members Only</span>
+                            {% else %}
+                            <span class="visibility-badge public">Public</span>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="post-content">
@@ -146,4 +151,23 @@
         {% endif %}
     </div>
 </div>
+
+<style>
+    .visibility-badge {
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.8em;
+        font-weight: 500;
+    }
+    
+    .visibility-badge.members-only {
+        background-color: #e3f2fd;
+        color: #1976d2;
+    }
+    
+    .visibility-badge.public {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+    }
+</style>
 {% endblock %} 

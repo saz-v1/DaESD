@@ -28,6 +28,20 @@
             {% endif %}
             <div class="help-text">Share your thoughts, questions, or ideas with the community</div>
         </div>
+
+        <div class="form-group">
+            <label>Post Visibility:</label>
+            <div class="visibility-options">
+                {{ form.visibility }}
+            </div>
+            {% if form.visibility.errors %}
+            <div class="form-error">{{ form.visibility.errors }}</div>
+            {% endif %}
+            <div class="help-text">
+                <strong>Public:</strong> Everyone can see this post<br>
+                <strong>Members Only:</strong> Only community members can see this post
+            </div>
+        </div>
         
         <div class="form-actions">
             <a href="{% url 'community_detail' slug=community.slug %}" class="btn btn-outline">Cancel</a>
@@ -39,4 +53,30 @@
         </div>
     </form>
 </div>
+
+<style>
+    .visibility-options {
+        margin: 10px 0;
+    }
+    
+    .visibility-options ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .visibility-options li {
+        margin: 5px 0;
+    }
+    
+    .visibility-options label {
+        margin-left: 5px;
+    }
+    
+    .help-text {
+        color: #666;
+        font-size: 0.9em;
+        margin-top: 5px;
+    }
+</style>
 {% endblock %} 
