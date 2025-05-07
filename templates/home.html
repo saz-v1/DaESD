@@ -21,7 +21,7 @@
                 {% if user.is_authenticated %}
                 <div class="card w-100 mx-0 mb-4 border-0">
                     <div class="card-body">
-                        <form method="POST" action="{% url 'posts_home' %}">
+                        <form method="POST" action="{% url 'home' %}">
                             {% csrf_token %}
                             <div class="form-group">
                                 <textarea class="form-control" name="content" rows="3" placeholder="What's on your mind?" style="resize: none;"></textarea>

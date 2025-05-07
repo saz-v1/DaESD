@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
 from posts.models import Post as RegularPost
 from communities.models import Post as CommunityPost
@@ -6,11 +6,26 @@ from events.models import Event
 from django.db import models
 from itertools import chain
 from django.utils.timezone import localtime
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 def api_hub(request):
     return render(request, "api_hub.html")
 
 def home(request):
+    # Handle post creation
+    if request.method == 'POST' and request.user.is_authenticated:
+        content = request.POST.get('content', '').strip()
+        if content:  # Only create post if content is not empty
+            RegularPost.objects.create(
+                user=request.user,
+                content=content
+            )
+            messages.success(request, 'Post created successfully!')
+        else:
+            messages.error(request, 'Post cannot be empty!')
+        return redirect('home')
+
     # Get regular posts
     regular_posts = RegularPost.objects.select_related('user').all()
     
