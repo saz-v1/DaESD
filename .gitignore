@@ -25,3 +25,7 @@ docker-compose.override.yml
 # JetBrains & VS Code IDEs
 .idea/
 
+# macOS system files
+.DS_Store
+**/.DS_Store
+

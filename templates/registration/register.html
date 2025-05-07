@@ -2,8 +2,40 @@
   <div class="container mt-4">
     <form method="post">
       <h2 class="text-center">Register</h2>
-      {% csrf_token %} {{ form.as_p }}
-      <button type="submit">Sign Up</button>
+      {% csrf_token %}
+      
+      {% if form.errors %}
+      <div class="alert alert-danger">
+        {% for field in form %}
+          {% for error in field.errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="mb-3">
+        <label for="id_username" class="form-label">Username</label>
+        {{ form.username }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_email" class="form-label">UWE Email</label>
+        {{ form.email }}
+        <div class="form-text">Please use your @live.uwe.ac.uk email address</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_password1" class="form-label">Password</label>
+        {{ form.password1 }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_password2" class="form-label">Confirm Password</label>
+        {{ form.password2 }}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Sign Up</button>
     </form>
   </div>
   <p class="text-center">Already have an account? <a href="{% url 'accounts:login' %}">Login</a></p>

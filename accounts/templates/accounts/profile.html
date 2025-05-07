@@ -27,6 +27,10 @@
         <h3 class="section-title">About Me</h3>
         <p>{{ profile.bio|default:"No bio available." }}</p>
         
+        <h3 class="section-title">Personal Info</h3>
+        <p><strong>Date of Birth:</strong> {{ profile.date_of_birth|date:"d/m/Y"|default:"Not provided" }}</p>
+        <p><strong>Address:</strong> {{ profile.address|default:"Not provided" }}</p>
+        
         <h3 class="section-title">Academic Info</h3>
         <p><strong>Degree:</strong> {{ profile.study_program|default:"No Degree listed" }}</p>
     </div>

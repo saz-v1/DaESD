@@ -63,6 +63,16 @@
                     <input type="text" class="form-control" id="id_study_program" name="study_program" value="{{ form.study_program.value|default:'' }}">
                 </div>
 
+                <div class="mb-3">
+                    <label for="id_date_of_birth" class="form-label">Date of Birth</label>
+                    <input type="date" class="form-control" id="id_date_of_birth" name="date_of_birth" value="{{ form.date_of_birth.value|date:'Y-m-d'|default:'' }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_address" class="form-label">Address</label>
+                    <input type="text" class="form-control" id="id_address" name="address" value="{{ form.address.value|default:'' }}" placeholder="Enter your address">
+                </div>
+
                 <!-- Profile Picture Upload -->
                 <div class="mb-3">
                     <label for="id_profile_picture" class="form-label">Profile Picture</label>

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from .forms import UserEditForm, ProfileForm
+from .forms import UserEditForm, ProfileForm, CustomUserCreationForm
 from communities.models import Membership
 from events.models import Event
 from django.utils import timezone
@@ -12,13 +12,14 @@ import os
 
 def register(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)  # Auto-login after registration
-            return redirect("home")
+            messages.success(request, 'Registration successful! Please complete your profile.')
+            return redirect("accounts:edit_profile")
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, "registration/register.html", {"form": form})
 
 def profile_view(request):
