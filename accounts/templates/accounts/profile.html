@@ -47,38 +47,12 @@
         </div>
         
         <div class="tab-navigation">
-            <button class="tab-button active" data-tab="overview">Overview</button>
             <button class="tab-button" data-tab="communities">Communities</button>
             <button class="tab-button" data-tab="events">Events</button>
         </div>
         
-       <!-- Overview Tab -->
-        <div id="overview" class="tab-content active">
-            <h2 class="section-title">My Communities</h2>
-            <div class="community-list">
-                {% if my_communities %}
-                    {% for community in my_communities %}
-                        {% include "accounts/components/community_item.html" %}
-                    {% endfor %}
-                {% else %}
-                    <p>You haven't joined any communities yet.</p>
-                {% endif %}
-            </div>
-            
-            <h2 class="section-title">Upcoming Events</h2>
-            <div class="event-list">
-                {% if upcoming_events %}
-                    {% for event in upcoming_events %}
-                        {% include "accounts/components/event_item.html" %}
-                    {% endfor %}
-                {% else %}
-                    <p>No upcoming events.</p>
-                {% endif %}
-            </div>
-        </div>
-        
         <!-- Communities Tab -->
-        <div id="communities" class="tab-content">
+        <div id="communities" class="tab-content active">
             <h2 class="section-title">My Communities</h2>
             <div class="community-list">
                 {% if my_communities %}
