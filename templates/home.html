@@ -39,9 +39,13 @@
                     <div class="card-body">
                         <!-- Header -->
                         <div class="d-flex align-items-center mb-3">
-                            <div class="avatar me-3 {% if item.type == 'event' %}bg-primary{% endif %}">
-                                {{ item.user.username|slice:":1"|upper }}
-                            </div>
+                            {% if item.user.profile.profile_picture %}
+                                <img src="{{ item.user.profile.profile_picture.url }}" alt="{{ item.user.username }}" class="avatar me-3" style="object-fit: cover;">
+                            {% else %}
+                                <div class="avatar me-3 {% if item.type == 'event' %}bg-primary{% endif %}">
+                                    {{ item.user.username|slice:":1"|upper }}
+                                </div>
+                            {% endif %}
                             <div class="flex-grow-1">
                                 <h5 class="mb-0">
                                     {{ item.user.username }}
@@ -119,9 +123,13 @@
                                 {% for comment in item.content.comments.all %}
                                 <div class="comment mb-2">
                                     <div class="d-flex">
-                                        <div class="avatar me-2">
-                                            {{ comment.author.username|slice:":1"|upper }}
-                                        </div>
+                                        {% if comment.author.profile.profile_picture %}
+                                            <img src="{{ comment.author.profile.profile_picture.url }}" alt="{{ comment.author.username }}" class="avatar me-2" style="object-fit: cover;">
+                                        {% else %}
+                                            <div class="avatar me-2">
+                                                {{ comment.author.username|slice:":1"|upper }}
+                                            </div>
+                                        {% endif %}
                                         <div>
                                             <strong>{{ comment.author.username }}</strong>
                                             <p class="mb-0">{{ comment.content }}</p>
