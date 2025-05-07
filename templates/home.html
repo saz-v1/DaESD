@@ -1,15 +1,206 @@
 {% extends "base.html" %}
+{% load humanize %}
 
 {% block content %}
-<div class="content text-center">
-    <h1>Welcome to UniHub</h1>
-    <p>Connect with university communities, join events, and collaborate with peers.</p>
-    
-    {% if not user.is_authenticated %}
-    <div class="mt-3">
-        <a href="{% url 'accounts:login' %}" class="btn">Login</a>
-        <a href="{% url 'accounts:register' %}" class="btn">Register</a>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="mb-4">Welcome to UniHub</h1>
+            
+            {% if not user.is_authenticated %}
+            <div class="alert alert-info">
+                <p>Connect with university communities, join events, and collaborate with peers.</p>
+                <div class="mt-3">
+                    <a href="{% url 'accounts:login' %}" class="btn btn-primary">Login</a>
+                    <a href="{% url 'accounts:register' %}" class="btn btn-outline-primary">Register</a>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Content Feed -->
+            <div class="content-feed">
+                <!-- Post Form for authenticated users -->
+                {% if user.is_authenticated %}
+                <div class="card w-100 mx-0 mb-4 border-0">
+                    <div class="card-body">
+                        <form method="POST" action="{% url 'posts_home' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <textarea class="form-control" name="content" rows="3" placeholder="What's on your mind?" style="resize: none;"></textarea>
+                            </div>
+                            <div class="d-flex justify-content-end mt-2">
+                                <button type="submit" class="btn btn-primary">Post</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% for item in all_content %}
+                <div class="card mb-4 {% if item.type == 'event' %}border-primary{% endif %}">
+                    <div class="card-body">
+                        <!-- Header -->
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar me-3 {% if item.type == 'event' %}bg-primary{% endif %}">
+                                {{ item.user.username|slice:":1"|upper }}
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="mb-0">
+                                    {{ item.user.username }}
+                                    {% if item.community %}
+                                        <small class="text-muted">in {{ item.community.name }}</small>
+                                    {% endif %}
+                                </h5>
+                                <small class="text-muted">{{ item.timestamp|naturaltime }}</small>
+                            </div>
+                            {% if item.type == 'event' %}
+                            <div class="ms-2">
+                                <span class="badge bg-primary">Event</span>
+                            </div>
+                            {% elif item.type == 'community_post' %}
+                            <div class="ms-2">
+                                <span class="badge bg-success">Community Post</span>
+                            </div>
+                            {% elif item.type == 'regular_post' %}
+                            <div class="ms-2">
+                                <span class="badge bg-secondary">Post</span>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Content -->
+                        <div class="content mb-3">
+                            {% if item.title %}
+                                <h4>{{ item.title }}</h4>
+                            {% endif %}
+                            
+                            {% if item.type == 'event' %}
+                                <div class="event-details">
+                                    <p class="mb-2">
+                                        <i class="fas fa-calendar"></i> {{ item.content.start_time|date:"M d, Y" }}
+                                        <br>
+                                        <i class="fas fa-clock"></i> {{ item.content.start_time|time:"H:i" }}
+                                        <br>
+                                        <i class="fas fa-map-marker-alt"></i> {{ item.content.location }}
+                                    </p>
+                                    <p class="mb-2">{{ item.content.description }}</p>
+                                    <div class="mt-3">
+                                        <a href="{% url 'event-detail' item.content.pk %}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-calendar-check"></i> View Event Details
+                                        </a>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <p class="mb-0">{{ item.content.content }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Actions -->
+                        {% if user.is_authenticated and item.type != 'event' %}
+                        <div class="post-actions">
+                            <button class="btn btn-sm btn-outline-primary me-2" onclick="toggleComments('{{ item.content.id }}')">
+                                <i class="fas fa-comment"></i> Comment
+                            </button>
+                            {% if item.type == 'community_post' %}
+                            <a href="{% url 'post_detail' community_slug=item.community.slug post_id=item.content.id %}" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-external-link-alt"></i> View in Community
+                            </a>
+                            {% endif %}
+                        </div>
+
+                        <!-- Comments Section -->
+                        <div id="comments-{{ item.content.id }}" class="comments-section mt-3" style="display: none;">
+                            <form method="POST" action="{% if item.type == 'community_post' %}{% url 'post_detail' community_slug=item.community.slug post_id=item.content.id %}{% else %}{% url 'post_comment' item.content.id %}{% endif %}" class="mb-3">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="content" placeholder="Write a comment...">
+                                    <button type="submit" class="btn btn-primary">Post</button>
+                                </div>
+                            </form>
+                            <div class="comments-list">
+                                {% for comment in item.content.comments.all %}
+                                <div class="comment mb-2">
+                                    <div class="d-flex">
+                                        <div class="avatar me-2">
+                                            {{ comment.author.username|slice:":1"|upper }}
+                                        </div>
+                                        <div>
+                                            <strong>{{ comment.author.username }}</strong>
+                                            <p class="mb-0">{{ comment.content }}</p>
+                                            <small class="text-muted">{{ comment.created_at|naturaltime }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="alert alert-info">
+                    No content yet. Be the first to share something!
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
-    {% endif %}
 </div>
+
+<style>
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.post-actions {
+    border-top: 1px solid #dee2e6;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.comments-section {
+    border-top: 1px solid #dee2e6;
+    padding-top: 10px;
+}
+
+.badge {
+    padding: 0.5em 1em;
+    font-size: 0.8em;
+}
+
+.event-details {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.event-details i {
+    width: 20px;
+    color: #007bff;
+}
+
+.card.border-primary {
+    border-width: 2px;
+}
+</style>
+
+<script>
+function toggleComments(postId) {
+    const commentsSection = document.getElementById(`comments-${postId}`);
+    if (commentsSection.style.display === 'none') {
+        commentsSection.style.display = 'block';
+    } else {
+        commentsSection.style.display = 'none';
+    }
+}
+</script>
 {% endblock %} 

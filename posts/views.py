@@ -1,12 +1,14 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from .forms import PostForm2
 from .models import Post,Notification
+from .models import Comment
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 
 @login_required
 def posts_home(request):
@@ -44,3 +46,30 @@ def posts_home(request):
 def mark_notifications_read(request):
     Notification.objects.filter(user=request.user, read=False).update(read=True)
     return JsonResponse({"status": "success"})
+
+@login_required
+@require_POST
+def post_comment(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    content = request.POST.get('content')
+    
+    if content:
+        # Create the comment
+        comment = Comment.objects.create(
+            post=post,
+            author=request.user,
+            content=content
+        )
+        
+        # Create notification for post author
+        if post.user != request.user:
+            Notification.objects.create(
+                user=post.user,
+                message=f"{request.user.username} commented on your post."
+            )
+        
+        messages.success(request, 'Comment added successfully!')
+    else:
+        messages.error(request, 'Comment cannot be empty.')
+    
+    return redirect('home')
