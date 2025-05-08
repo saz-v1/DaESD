@@ -26,7 +26,14 @@
     <div class="post-content">
         <p>{{ post.content|linebreaks }}</p>
     </div>
-    
+    {% if post.tags.all %}
+        <div class="post-tags mb-3">
+            <strong>Tags:</strong>
+            {% for tag in post.tags.all %}
+                <span class="badge bg-secondary me-1">#{{ tag.name }}</span>
+            {% endfor %}
+        </div>
+    {% endif %}
     <div class="comments-section">
         <h2>Comments ({{ comments.count }})</h2>
         

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
-from posts.models import Post as RegularPost
+from posts.models import Post as RegularPost, tag as Tag
 from communities.models import Post as CommunityPost
 from events.models import Event
 from django.db import models
@@ -17,10 +17,15 @@ def home(request):
     if request.method == 'POST' and request.user.is_authenticated:
         content = request.POST.get('content', '').strip()
         if content:  # Only create post if content is not empty
-            RegularPost.objects.create(
+            tag_input = request.POST.get('tags', '') # get tags
+            tag_names = [name.strip() for name in tag_input.split(',') if name.strip()] # split tags by comma, remove whitespace
+            post = RegularPost.objects.create(
                 user=request.user,
                 content=content
             )
+            for name in tag_names:
+                tag_obj, _ = Tag.objects.get_or_create(name=name) # Create or get the tag
+                post.tags.add(tag_obj) # Add the tag to the post
             messages.success(request, 'Post created successfully!')
         else:
             messages.error(request, 'Post cannot be empty!')

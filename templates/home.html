@@ -26,6 +26,9 @@
                             <div class="form-group">
                                 <textarea class="form-control" name="content" rows="3" placeholder="What's on your mind?" style="resize: none;"></textarea>
                             </div>
+                            <div class="form-group mt-3">
+                                <input type="text" class="form-control" name="tags" placeholder="Enter tags separated by commas (e.g. tag1, tag2)">
+                            </div>
                             <div class="d-flex justify-content-end mt-2">
                                 <button type="submit" class="btn btn-primary">Post</button>
                             </div>
@@ -94,6 +97,13 @@
                                 </div>
                             {% else %}
                                 <p class="mb-0">{{ item.content.content }}</p>
+                                {% if item.content.tags.all %}
+                                <div class="mt-2">
+                                    {% for tag in item.content.tags.all %}
+                                        <span class="badge bg-secondary me-1">#{{ tag.name }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                             {% endif %}
                         </div>
 

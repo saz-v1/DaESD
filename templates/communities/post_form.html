@@ -30,6 +30,12 @@
         </div>
 
         <div class="form-group">
+            <label for="id_tags">Tags (comma-separated):</label>
+            <input type="text" name="tags" class="form-control" placeholder="Enter tags separated by commas (e.g. tag1, tag2)">
+            <div class="help-text">Add optional tags to help categorize your post</div>
+        </div>
+
+        <div class="form-group">
             <label>Post Visibility:</label>
             <div class="visibility-options">
                 {{ form.visibility }}

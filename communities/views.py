@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.db.models import Count
 from django.utils import timezone
 
-from .models import Community, Membership, Post, Comment
+from .models import Community, Membership, Post, Comment, tag
 from .forms import CommunityForm, PostForm, CommentForm
 
 def community_list(request):
@@ -217,6 +217,13 @@ def create_post(request, community_slug):
             post.author = request.user
             post.community = community
             post.save()
+
+            tag_input = request.POST.get('tags', '') # get tags
+            tag_names = [name.strip() for name in tag_input.split(',') if name.strip()] # strip commas
+            for name in tag_names: 
+                tag_obj, _ = tag.objects.get_or_create(name=name) # get or create tag object
+                post.tags.add(tag_obj) # add tag to post
+
             messages.success(request, 'Post created successfully!')
             return redirect('community_detail', slug=community_slug)
     else:
@@ -279,6 +286,14 @@ def edit_post(request, community_slug, post_id):
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
+            # refer to create post for comments
+            post.tags.clear()  
+            tag_input = request.POST.get('tags', '')
+            tag_names = [name.strip() for name in tag_input.split(',') if name.strip()]
+            for name in tag_names:
+                tag_obj, _ = tag.objects.get_or_create(name=name)
+                post.tags.add(tag_obj)
+
             messages.success(request, 'Post updated successfully!')
             return redirect('post_detail', community_slug=community_slug, post_id=post_id)
     else:
