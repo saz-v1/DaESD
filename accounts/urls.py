@@ -11,4 +11,6 @@ urlpatterns = [
     path('profile/', views.profile_view, name='profile'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('remove-profile-picture/', views.remove_profile_picture, name='remove_profile_picture'),
+    path('search/', views.search_students, name='search_students'),
+    path('global-search/', views.global_search, name='global_search'),
 ]

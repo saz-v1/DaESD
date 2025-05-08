@@ -21,6 +21,13 @@
         </div>
 
         <div class="nav-links">
+            <form method="get" action="{% url 'accounts:global_search' %}" class="navbar-search-form d-flex align-items-center position-relative" style="background: #f8fafc; border-radius: 22px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 2px 14px 2px 36px; margin-right: 28px; min-width: 240px; border: 1px solid #e3e8ee; transition: box-shadow 0.2s;">
+                <span class="position-absolute" style="left: 14px; top: 50%; transform: translateY(-50%); color: #b0b8c1; font-size: 16px; pointer-events: none;">
+                    <i class="fas fa-search"></i>
+                </span>
+                <input type="text" name="q" placeholder="Search..." class="form-control form-control-sm border-0 shadow-none" style="border-radius: 20px; background: transparent; box-shadow: none; font-size: 15px; width: 150px; outline: none; padding-left: 0; transition: box-shadow 0.2s;" onfocus="this.parentNode.style.boxShadow='0 4px 16px rgba(52,152,219,0.13)';" onblur="this.parentNode.style.boxShadow='0 2px 8px rgba(44,62,80,0.06)';" />
+                <button type="submit" class="btn btn-primary btn-sm ms-2" style="border-radius: 20px; padding: 4px 16px; font-size: 14px; box-shadow: 0 1px 4px rgba(52,152,219,0.08);">Search</button>
+            </form>
             <div class="position-relative">
                 <button type="button" id="notificationButton" class="notification-bell-btn">
                     <i class="fas fa-bell fa-lg"></i>

@@ -71,7 +71,8 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     community = models.ForeignKey(Community, on_delete=models.CASCADE, related_name='posts')
     visibility = models.CharField(max_length=20, choices=VISIBILITY_CHOICES, default='public')
-    tags = models.ManyToManyField(tag, blank=True) # many to many relationship with tag
+    tags = models.ManyToManyField(tag, blank=True)
+    attachment = models.FileField(upload_to='post_attachments/', null=True, blank=True)
     
     def __str__(self):
         return self.title

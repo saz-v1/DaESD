@@ -3,11 +3,12 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import UserEditForm, ProfileForm, CustomUserCreationForm
-from communities.models import Membership
+from communities.models import Membership, Community
 from events.models import Event
 from django.utils import timezone
 from .models import Profile
 from django.contrib import messages
+from django.db.models import Q
 import os
 
 def register(request):
@@ -88,3 +89,76 @@ def remove_profile_picture(request):
         
         return redirect('accounts:edit_profile')
     return redirect('accounts:edit_profile')
+
+@login_required
+def search_students(request):
+    query = request.GET.get('q', '')
+    program = request.GET.get('program', '')
+    year = request.GET.get('year', '')
+    
+    # Start with all profiles
+    profiles = Profile.objects.select_related('user').all()
+    
+    if query:
+        # Search in username, first name, last name, and bio
+        profiles = profiles.filter(
+            Q(user__username__icontains=query) |
+            Q(user__first_name__icontains=query) |
+            Q(user__last_name__icontains=query) |
+            Q(bio__icontains=query)
+        )
+    
+    if program:
+        profiles = profiles.filter(study_program__icontains=program)
+    
+    if year:
+        profiles = profiles.filter(study_year=year)
+    
+    # Get unique study programs for filter dropdown
+    study_programs = Profile.objects.exclude(study_program__isnull=True).values_list('study_program', flat=True).distinct()
+    
+    context = {
+        'profiles': profiles,
+        'query': query,
+        'program': program,
+        'year': year,
+        'study_programs': study_programs,
+        'year_choices': Profile.YEAR_CHOICES,
+    }
+    
+    return render(request, 'accounts/search_students.html', context)
+
+def global_search(request):
+    query = request.GET.get('q', '').strip()
+    student_results = []
+    community_results = []
+    event_results = []
+
+    if query:
+        # Student search (profiles)
+        student_results = Profile.objects.select_related('user').filter(
+            Q(user__username__icontains=query) |
+            Q(user__first_name__icontains=query) |
+            Q(user__last_name__icontains=query) |
+            Q(bio__icontains=query) |
+            Q(study_program__icontains=query)
+        )
+        # Community search
+        community_results = Community.objects.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query)
+        )
+        # Event search
+        event_results = Event.objects.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query) |
+            Q(location__icontains=query)
+        )
+
+    context = {
+        'query': query,
+        'student_results': student_results,
+        'community_results': community_results,
+        'event_results': event_results,
+    }
+    return render(request, 'accounts/global_search_results.html', context)

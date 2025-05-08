@@ -12,6 +12,7 @@ class Post(models.Model):
     content = models.TextField()  # Content of the post
     created_at = models.DateTimeField(auto_now_add=True)  # Automatically set the creation time
     tags = models.ManyToManyField(tag, blank=True) # many to many relationship with tag
+    attachment = models.FileField(upload_to='regular_post_attachments/', null=True, blank=True)
     def __str__(self):
         return f"Post by {self.user.username} at {self.created_at}"
 

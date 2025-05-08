@@ -8,7 +8,7 @@
     <h1>Create New Post in {{ community.name }}</h1>
     {% endif %}
     
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         
         <div class="form-group">
@@ -27,6 +27,15 @@
             <div class="form-error">{{ form.content.errors }}</div>
             {% endif %}
             <div class="help-text">Share your thoughts, questions, or ideas with the community</div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.attachment.id_for_label }}">Attachment:</label>
+            {{ form.attachment }}
+            {% if form.attachment.errors %}
+            <div class="form-error">{{ form.attachment.errors }}</div>
+            {% endif %}
+            <div class="help-text">Upload a file to attach to your post (optional)</div>
         </div>
 
         <div class="form-group">

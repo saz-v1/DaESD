@@ -12,7 +12,7 @@ class CommunityForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content', 'visibility']
+        fields = ['title', 'content', 'visibility', 'attachment']
         widgets = {
             'content': forms.Textarea(attrs={'rows': 5}),
             'visibility': forms.RadioSelect(attrs={'class': 'visibility-options'}),

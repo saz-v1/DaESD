@@ -211,7 +211,7 @@ def create_post(request, community_slug):
         return HttpResponseForbidden("You must be a member to post in this community")
     
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
@@ -283,7 +283,7 @@ def edit_post(request, community_slug, post_id):
             return HttpResponseForbidden("You don't have permission to edit this post")
     
     if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
             # refer to create post for comments

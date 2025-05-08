@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="search-container">
+    <h1>Search Students</h1>
+    
+    <div class="search-filters">
+        <form method="get" class="search-form">
+            <div class="form-group">
+                <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Search by name or bio...">
+            </div>
+            
+            <div class="form-group">
+                <select name="program" class="form-control">
+                    <option value="">All Programs</option>
+                    {% for program in study_programs %}
+                        <option value="{{ program }}" {% if program == selected_program %}selected{% endif %}>
+                            {{ program }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <select name="year" class="form-control">
+                    <option value="">All Years</option>
+                    {% for value, label in year_choices %}
+                        <option value="{{ value }}" {% if value == year %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    
+    <div class="search-results">
+        {% if profiles %}
+            <div class="student-grid">
+                {% for profile in profiles %}
+                    <div class="student-card">
+                        <div class="student-avatar">
+                            {% if profile.profile_picture %}
+                                <img src="{{ profile.profile_picture.url }}" alt="{{ profile.user.username }}'s profile picture">
+                            {% else %}
+                                <div class="avatar-placeholder">
+                                    {{ profile.user.username|slice:":2"|upper }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="student-info">
+                            <h3>{{ profile.user.get_full_name|default:profile.user.username }}</h3>
+                            <p class="username">@{{ profile.user.username }}</p>
+                            
+                            {% if profile.study_program %}
+                                <p class="program">{{ profile.study_program }}</p>
+                            {% endif %}
+                            
+                            {% if profile.study_year %}
+                                <p class="year">{{ profile.get_study_year_display }}</p>
+                            {% endif %}
+                            
+                            {% if profile.bio %}
+                                <p class="bio">{{ profile.bio|truncatechars:100 }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <a href="{% url 'accounts:profile' %}" class="btn btn-outline">View Profile</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-results">
+                <p>No students found matching your search criteria.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.search-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.search-filters {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.search-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 15px;
+    align-items: end;
+}
+
+.student-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.student-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.student-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.student-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #3498db;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.student-info {
+    margin-bottom: 15px;
+}
+
+.student-info h3 {
+    margin: 0 0 5px;
+    color: #2c3e50;
+}
+
+.username {
+    color: #7f8c8d;
+    margin: 0 0 10px;
+}
+
+.program, .year {
+    color: #34495e;
+    margin: 5px 0;
+}
+
+.bio {
+    color: #7f8c8d;
+    font-size: 0.9em;
+    margin: 10px 0;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    color: #7f8c8d;
+}
+</style>
+{% endblock %} 

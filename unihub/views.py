@@ -16,12 +16,14 @@ def home(request):
     # Handle post creation
     if request.method == 'POST' and request.user.is_authenticated:
         content = request.POST.get('content', '').strip()
+        attachment = request.FILES.get('attachment')
         if content:  # Only create post if content is not empty
             tag_input = request.POST.get('tags', '') # get tags
             tag_names = [name.strip() for name in tag_input.split(',') if name.strip()] # split tags by comma, remove whitespace
             post = RegularPost.objects.create(
                 user=request.user,
-                content=content
+                content=content,
+                attachment=attachment
             )
             for name in tag_names:
                 tag_obj, _ = Tag.objects.get_or_create(name=name) # Create or get the tag

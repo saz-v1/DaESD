@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Search Results{% if query %} for "{{ query }}"{% endif %}</h2>
+    {% if not query %}
+        <div class="alert alert-info mt-3">Enter a search term above to find students, communities, or events.</div>
+    {% endif %}
+
+    {% if query %}
+        <div class="row mt-4">
+            <div class="col-md-12 mb-4">
+                <h4><i class="fas fa-user-graduate me-2"></i>Students</h4>
+                {% if student_results %}
+                    <div class="row g-3">
+                        {% for profile in student_results %}
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    {% if profile.profile_picture %}
+                                        <img src="{{ profile.profile_picture.url }}" alt="{{ profile.user.username }}" class="rounded-circle mb-2" style="width: 60px; height: 60px; object-fit: cover;">
+                                    {% else %}
+                                        <div class="avatar mb-2" style="width: 60px; height: 60px; font-size: 24px;">{{ profile.user.username|slice:":2"|upper }}</div>
+                                    {% endif %}
+                                    <h5 class="mb-1">{{ profile.user.get_full_name|default:profile.user.username }}</h5>
+                                    <div class="text-muted small mb-1">@{{ profile.user.username }}</div>
+                                    <div class="small">{{ profile.study_program|default:"-" }}{% if profile.study_year %} ({{ profile.get_study_year_display }}){% endif %}</div>
+                                    <a href="{% url 'accounts:profile' %}?user={{ profile.user.username }}" class="btn btn-outline-primary btn-sm mt-2">View Profile</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-muted">No students found.</div>
+                {% endif %}
+            </div>
+
+            <div class="col-md-12 mb-4">
+                <h4><i class="fas fa-users me-2"></i>Communities</h4>
+                {% if community_results %}
+                    <div class="row g-3">
+                        {% for community in community_results %}
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="mb-1">{{ community.name }}</h5>
+                                    <div class="small text-muted mb-2">{{ community.description|truncatechars:60 }}</div>
+                                    <a href="{% url 'community_detail' slug=community.slug %}" class="btn btn-outline-success btn-sm">View Community</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-muted">No communities found.</div>
+                {% endif %}
+            </div>
+
+            <div class="col-md-12 mb-4">
+                <h4><i class="fas fa-calendar-alt me-2"></i>Events</h4>
+                {% if event_results %}
+                    <div class="row g-3">
+                        {% for event in event_results %}
+                        <div class="col-md-4 col-lg-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="mb-1">{{ event.title }}</h5>
+                                    <div class="small text-muted mb-2">{{ event.start_time|date:"M d, Y H:i" }} at {{ event.location }}</div>
+                                    <div class="small mb-2">{{ event.description|truncatechars:60 }}</div>
+                                    <a href="{% url 'event-detail' event.pk %}" class="btn btn-outline-info btn-sm">View Event</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-muted">No events found.</div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

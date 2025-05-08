@@ -21,13 +21,16 @@
                 {% if user.is_authenticated %}
                 <div class="card w-100 mx-0 mb-4 border-0">
                     <div class="card-body">
-                        <form method="POST" action="{% url 'home' %}">
+                        <form method="POST" action="{% url 'home' %}" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="form-group">
                                 <textarea class="form-control" name="content" rows="3" placeholder="What's on your mind?" style="resize: none;"></textarea>
                             </div>
                             <div class="form-group mt-3">
                                 <input type="text" class="form-control" name="tags" placeholder="Enter tags separated by commas (e.g. tag1, tag2)">
+                            </div>
+                            <div class="form-group mt-3">
+                                <input type="file" class="form-control" name="attachment">
                             </div>
                             <div class="d-flex justify-content-end mt-2">
                                 <button type="submit" class="btn btn-primary">Post</button>
@@ -97,6 +100,19 @@
                                 </div>
                             {% else %}
                                 <p class="mb-0">{{ item.content.content }}</p>
+                                {% if item.content.attachment %}
+                                    {% if item.content.attachment.url|lower|slice:'-4:' == '.jpg' or item.content.attachment.url|lower|slice:'-5:' == '.jpeg' or item.content.attachment.url|lower|slice:'-4:' == '.png' or item.content.attachment.url|lower|slice:'-4:' == '.gif' %}
+                                        <div class="mt-2">
+                                            <img src="{{ item.content.attachment.url }}" alt="Attachment" style="max-width: 100%; max-height: 300px; border-radius: 8px; margin-top: 10px;" />
+                                        </div>
+                                    {% else %}
+                                        <div class="mt-2">
+                                            <a href="{{ item.content.attachment.url }}" class="btn btn-sm btn-outline-secondary" download>
+                                                <i class="fas fa-paperclip"></i> Download Attachment
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
                                 {% if item.content.tags.all %}
                                 <div class="mt-2">
                                     {% for tag in item.content.tags.all %}
